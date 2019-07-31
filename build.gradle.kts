@@ -18,11 +18,21 @@ repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
+    mavenCentral()
 }
 
 dependencies {
     // This dependency is used by the application.
     implementation("com.google.guava:guava:27.1-jre")
+
+    // Apache POI - Java API To Access Microsoft Format Files
+    // https://mvnrepository.com/artifact/org.apache.poi/poi
+    compile("org.apache.poi:poi:4.1.0")
+    compile("org.apache.poi:poi-ooxml:4.1.0")
+
+    // MySQL Connector/J » 8.0.17
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java/8.0.17
+    compile("mysql:mysql-connector-java:8.0.17")
 
     // Use JUnit test framework
     testImplementation("junit:junit:4.12")
