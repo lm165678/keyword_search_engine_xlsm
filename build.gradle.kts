@@ -32,7 +32,12 @@ dependencies {
 
     // MySQL Connector/J » 8.0.17
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java/8.0.17
-    compile("mysql:mysql-connector-java:8.0.17")
+    // compile("mysql:mysql-connector-java:8.0.17")
+
+    // MongoDB Java Driver » 3.11.0-rc0
+    // https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver
+    compile("org.mongodb:mongo-java-driver:3.11.0-rc0")
+
 
     // Use JUnit test framework
     testImplementation("junit:junit:4.12")
