@@ -13,21 +13,20 @@ public class App {
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
 
-        try 
-        {
+        DBHandler db = new DBHandler();
+        db.init();
+
+        try {
             // INFO: strict OOXML format is not supported for apache poi currently
             // file must be in other format such as xlsm
             // String fileDir = "src/main/resources/worddata1.xlsx";
             String fileDir = "src/main/resources/worddata1.xlsm";
-            XlsxHandler.readXLSMFile(fileDir);
-        } 
-        catch (IOException e)
-        {
+            XlsxHandler handler = new XlsxHandler();
+            handler.init(fileDir);
+            handler.read();
+        } catch (IOException e) {
             System.out.println("[FAIL] Catch Exception: " + e.getMessage());
         }
-        
-        DBHandler db = new DBHandler();
-        db.init();
 
     }
 }
