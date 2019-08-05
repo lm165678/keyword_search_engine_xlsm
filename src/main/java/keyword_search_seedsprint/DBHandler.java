@@ -1,57 +1,57 @@
 package keyword_search_seedsprint;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.ResultSet;
-import java.sql.PreparedStatement;
+// import java.sql.Connection;
+// import java.sql.DriverManager;
+// import java.sql.SQLException;
+// import java.sql.ResultSet;
+// import java.sql.PreparedStatement;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.BulkWriteOperation;
+import com.mongodb.BulkWriteResult;
+import com.mongodb.Cursor;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.MongoClient;
+import com.mongodb.ParallelScanOptions;
+import com.mongodb.ServerAddress;
+
+import java.util.List;
+import java.util.Set;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class DBHandler 
 {
-    private Connection conn;
-
-    public DBHandler()
-    {
-        conn = null;
+    private MongoClient mongoClient;
+    private DB database;
+    private DBCollection collection;
+ 
+    /**
+     * constructor
+     */
+    public DBHandler() {
+        return;
     }
 
-    public void init() 
-    {
-        try (Connection conn = DriverManager.getConnection(
-                "jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", 
-                "root", "root")) 
-        {
-            if (conn != null) 
-            {
-                System.out.println("[SUCCESS] Connected to the database");
-            }
-            else 
-            {
-                System.out.println("[FAIL] Failed to connect to the database"); 
-            }
-        }
-        catch (SQLException e) 
-        {
-            System.err.format("[FAIL] SQL State: %s\n%s", e.getSQLState(), e.getMessage());
-        } 
-        catch (Exception e) 
-        {
-            e.printStackTrace();
-        }
+    /**
+     * this method init basic objects
+     */
+    public void init() {
+        mongoClient = new MongoClient("localhost" , 27017);
+        database = mongoClient.getDB("workdata_seedsprint");
+        collection = database.getCollection("fullname_skills");
+        System.out.println("[SUCCESS] database connected. collection chosen: fullname_skills");
     }
 
-    // public void add_query(String sql_query)
-    // {
-    //     try (PreparedStatement preparedStatement = conn.preparedStatement(sql_query)) {
-    //         ResultSet resultSet = preparedStatement.executeQuery();
-    //     }
-    //     catch (SQLException e)
-    //     {
-    //         System.err.format("[FAIL] SQL State: %s\n%s", e.getSQLState(), e.getMessage());
-    //     } 
-    //     catch (Exception e) 
-    //     {
-    //         e.printStackTrace();
-    //     }
-    // }
+    /**
+     * this method ends all handler instances.
+     */
+    public void end() {
+        this.mongoClient.close();
+    }
+
+
 }
