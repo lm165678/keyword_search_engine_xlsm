@@ -13,39 +13,40 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellType;
 
 public class XlsxHandler {
-    
-    public static void readXLSMFile(String fileDir) throws IOException 
-    {
-        InputStream ExcelFileToRead = new FileInputStream(fileDir);
-        XSSFWorkbook wb = new XSSFWorkbook(ExcelFileToRead);
-        
-        XSSFWorkbook test = new XSSFWorkbook();
 
+    private XSSFWorkbook wb;
+
+    public XlsxHandler() {
+        return;
+    }
+
+    public void init(String fileDir) throws IOException {
+        InputStream ExcelFileToRead = new FileInputStream(fileDir);
+        wb = new XSSFWorkbook(ExcelFileToRead);
+    }
+    
+    /**
+     * this function will read the first sheet and print fullname and skills columns
+     */
+    public void read() {
         XSSFSheet sheet = wb.getSheetAt(0);
         XSSFRow row;
-        XSSFCell cell;
+        XSSFCell fullNameCell;
+        XSSFCell skillsCell;
 
         Iterator rows = sheet.rowIterator();
 
-        while (rows.hasNext()) 
-        {
+        while (rows.hasNext()) {
             row = (XSSFRow) rows.next();
+            fullNameCell = row.getCell(4); // full name
+            skillsCell = row.getCell(28); // skills
 
-            cell = row.getCell(4);
-            if (cell != null)
-            {
-                if (cell.getCellType() == CellType.STRING) 
-                {
-                    System.out.println(cell.getStringCellValue()+" ");
+            // this part only handles string cells
+            if (fullNameCell != null && skillsCell != null){
+                if (fullNameCell.getCellType() == CellType.STRING){
+                    System.out.print(fullNameCell.getStringCellValue()+" -- ");
+                    System.out.println(skillsCell.getStringCellValue()+" ");
                 }
-                else if (cell.getCellType() == CellType.NUMERIC)
-                {
-                    System.out.println(cell.getNumericCellValue()+" ");
-                }
-                else
-                {
-                    // handle other types
-                }    
             }
         }
     }
