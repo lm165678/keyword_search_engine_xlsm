@@ -4,7 +4,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
 import java.util.Iterator;
+import java.util.List;
+import java.util.ArrayList;
+import javafx.util.Pair;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -12,6 +16,9 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellType;
 
+/**
+ * @author Zhongjie Shen
+ */
 public class XlsxHandler {
 
     private XSSFWorkbook wb;
@@ -28,11 +35,13 @@ public class XlsxHandler {
     /**
      * this function will read the first sheet and print fullname and skills columns
      */
-    public void read() {
+    public List read() {
         XSSFSheet sheet = wb.getSheetAt(0);
         XSSFRow row;
         XSSFCell fullNameCell;
         XSSFCell skillsCell;
+
+        List result = new ArrayList<Pair<String, String>>();
 
         Iterator rows = sheet.rowIterator();
 
@@ -44,10 +53,15 @@ public class XlsxHandler {
             // this part only handles string cells
             if (fullNameCell != null && skillsCell != null){
                 if (fullNameCell.getCellType() == CellType.STRING){
-                    System.out.print(fullNameCell.getStringCellValue()+" -- ");
-                    System.out.println(skillsCell.getStringCellValue()+" ");
+                    String fullName = fullNameCell.getStringCellValue();
+                    String skills = skillsCell.getStringCellValue();
+                    // System.out.print(fullName+" -- ");
+                    // System.out.println(skills + " ");
+                    Pair p = new Pair<String, String>(fullName, skills);
+                    result.add(p);
                 }
             }
         }
+        return result;
     }
 }
