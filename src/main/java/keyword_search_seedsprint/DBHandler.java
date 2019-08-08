@@ -1,11 +1,5 @@
 package keyword_search_seedsprint;
 
-// import java.sql.Connection;
-// import java.sql.DriverManager;
-// import java.sql.SQLException;
-// import java.sql.ResultSet;
-// import java.sql.PreparedStatement;
-
 import com.mongodb.BasicDBObject;
 import com.mongodb.BulkWriteOperation;
 import com.mongodb.BulkWriteResult;
@@ -23,6 +17,9 @@ import java.util.Set;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+/**
+ * @author Zhongjie Shen
+ */
 public class DBHandler 
 {
     private MongoClient mongoClient;
@@ -51,6 +48,7 @@ public class DBHandler
      */
     public void end() {
         this.mongoClient.close();
+        System.out.println("[SUCCESS] database closed");   
     }
 
 
