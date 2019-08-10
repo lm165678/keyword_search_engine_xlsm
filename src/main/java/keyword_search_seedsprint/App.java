@@ -45,5 +45,10 @@ public class App {
             Pair<String, String> p = pairsIterator.next();
             indexBuilder.add_token(p.getKey(), p.getValue());
         }
+
+        // indexBuilder.print_fullName_skill();
+        // indexBuilder.print_skill_fullName();
+        indexBuilder.calculate();
+        indexBuilder.print_tfidfList();
     }
 }
