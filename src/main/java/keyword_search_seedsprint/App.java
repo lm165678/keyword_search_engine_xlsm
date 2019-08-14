@@ -3,8 +3,6 @@
  */
 package keyword_search_seedsprint;
 
-import java.io.IOException;
-import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
 import javafx.util.Pair;
@@ -24,19 +22,14 @@ public class App {
         db.init();
         // db.end();
 
-        List pair_list = new ArrayList<Pair<String, String>>();
+        ArrayList pair_list = new ArrayList<Pair<String, String>>();
+        XlsxHandler handler = new XlsxHandler();
+        // INFO: strict OOXML format is not supported for apache poi currently
+        // file must be in other format such as xlsm
+        String fileDir = "src/main/resources/worddata1.xlsm";
 
-        try {
-            // INFO: strict OOXML format is not supported for apache poi currently
-            // file must be in other format such as xlsm
-            // String fileDir = "src/main/resources/worddata1.xlsx";
-            String fileDir = "src/main/resources/worddata1.xlsm";
-            XlsxHandler handler = new XlsxHandler();
-            handler.init(fileDir);
-            pair_list = handler.read();
-        } catch (IOException e) {
-            System.out.println("[FAIL] Catch Exception: " + e.getMessage());
-        }
+        handler.init(fileDir);
+        pair_list = handler.read();
 
         InvertedIndexBuilder indexBuilder = new InvertedIndexBuilder();
         Iterator<Pair<String, String>> pairsIterator = pair_list.iterator();

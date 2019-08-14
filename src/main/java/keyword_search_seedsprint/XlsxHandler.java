@@ -5,9 +5,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.Path;
+
 import java.util.Iterator;
-import java.util.List;
 import java.util.ArrayList;
+
 import javafx.util.Pair;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -22,26 +26,45 @@ import org.apache.poi.ss.usermodel.CellType;
 public class XlsxHandler {
 
     private XSSFWorkbook wb;
+    private ArrayList<XSSFWorkbook> wbs;
 
     public XlsxHandler() {
         return;
     }
 
-    public void init(String fileDir) throws IOException {
-        InputStream ExcelFileToRead = new FileInputStream(fileDir);
-        wb = new XSSFWorkbook(ExcelFileToRead);
+    public void init(String fileDir) {
+        try {
+            InputStream excelFileToRead = new FileInputStream(fileDir);
+            wb = new XSSFWorkbook(excelFileToRead);
+        } catch (IOException e) {
+            System.out.println("[FAIL] Catch Exception: " + e.getMessage());
+        }
+    }
+
+    public void initF(String folderDir) {
+        // InputStream ExcelFileFolderToRead = new FileInputStream(folderDir);
+        // wbs = new ArrayList<XSSFWorkbook>();
+
+        ArrayList<String> filesDir = new ArrayList<String>();
+        try {
+            Files.newDirectoryStream(Paths.get(folderDir),
+            path -> path.toString().endsWith(".xlsm"))
+            .forEach(System.out::println);
+        } catch (IOException e) {
+            System.out.println("[FAIL] Catch Exception: " + e.getMessage());
+        }
     }
     
     /**
      * this function will read the first sheet and print fullname and skills columns
      */
-    public List read() {
+    public ArrayList read() {
         XSSFSheet sheet = wb.getSheetAt(0);
         XSSFRow row;
         XSSFCell fullNameCell;
         XSSFCell skillsCell;
 
-        List result = new ArrayList<Pair<String, String>>();
+        ArrayList result = new ArrayList<Pair<String, String>>();
 
         Iterator rows = sheet.rowIterator();
 
