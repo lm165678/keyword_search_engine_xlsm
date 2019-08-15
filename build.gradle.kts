@@ -12,7 +12,6 @@ plugins {
 
     // Apply the application plugin to add support for building a CLI application
     application
-    
     id("org.openjfx.javafxplugin") version "0.0.8"
 }
 
@@ -39,10 +38,6 @@ dependencies {
     // MongoDB Java Driver » 3.11.0-rc0
     // https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver
     compile("org.mongodb:mongo-java-driver:3.11.0-rc0")
-    
-    // JavaFX Controls » 12.0.1
-    // https://mvnrepository.com/artifact/org.openjfx/javafx-controls/12.0.1
-    compile("org.openjfx:javafx-controls:12.0.1")
 
     // Use JUnit test framework
     testImplementation("junit:junit:4.12")
@@ -51,4 +46,8 @@ dependencies {
 application {
     // Define the main class for the application
     mainClassName = "keyword_search_seedsprint.App"
+}
+
+javafx {
+    modules("javafx.controls", "javafx.fxml")
 }
