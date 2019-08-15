@@ -1,6 +1,14 @@
 language: java
-sudo: false
-addons:
-  apt:
-    packages:
-      - oracle-java8-installer
+jdk:
+  - oraclejdk8
+  - oraclejdk11
+  - oraclejdk-ea
+
+matrix:
+  allow_failures:
+    - jdk: oraclejdk-ea
+  include:
+    - jdk: openjdk10
+      before_install:
+        - rm "${JAVA_HOME}/lib/security/cacerts"
+        - ln -s /etc/ssl/certs/java/cacerts "${JAVA_HOME}/lib/security/cacerts"
