@@ -15,7 +15,6 @@ this is a simple keyword matching system for Seedsprint.
 ### 3: Source File
 - please put source file under ***/src/main/resources*** 
 - due to the format limitation of .xlsx file, please convert it to xlsm. 
-- current version only support **one file** and the file name must be ***worddata1.xlsm***  
 
 ## Example Output
 - all skills will be printed in the console like
@@ -31,7 +30,14 @@ this is a simple keyword matching system for Seedsprint.
 
 **bigger the tfidf is, means the skill is rarer**. I will add a ranking program later to rank all the term/skills.
 
+## Known Issues
+1. due to the layout differences among all workdata files. the skill and names extraction feature is not functioning correctly.
+
 ## Update:
+### August 14th, 2019
+- now the program will find all .xslm files under resources folder.
+- now you will see more prompts and know what's going on in the program. this also helps debugging.
+
 ### August 9th, 2019
 - now the tfidf calculation should be working
 - Known Issue: HashMap dict_skill_fullNames is not correctly generated. the fullNames list is never updated when key exists. (Solved)
