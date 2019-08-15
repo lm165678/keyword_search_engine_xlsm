@@ -25,46 +25,65 @@ import org.apache.poi.ss.usermodel.CellType;
  */
 public class XlsxHandler {
 
-    private XSSFWorkbook wb;
     private ArrayList<XSSFWorkbook> wbs;
+    private ArrayList<Pair<String, String>> extracted; // Pair<fullname:skills>
 
     public XlsxHandler() {
+        this.wbs = new ArrayList<XSSFWorkbook>();
+        this.extracted = new ArrayList<Pair<String, String>>();
         return;
     }
 
-    public void init(String fileDir) {
+    /**
+     * init XlsxHandler with a folderDir String
+     * @param  folderDir src folder dir
+     * @return           true if folder is not empty
+     */
+    public boolean init(String folderDir) {
+        // InputStream ExcelFileFolderToRead = new FileInputStream(folderDir);
+
+        ArrayList<Path> paths = this.getPaths(folderDir);
+
+        if (paths.size() == 0)
+            return false;
+        
         try {
-            InputStream excelFileToRead = new FileInputStream(fileDir);
-            wb = new XSSFWorkbook(excelFileToRead);
+            for (Path path : paths) {
+                String fileDir = path.toString();
+                InputStream excelFileToRead = new FileInputStream(fileDir);
+                XSSFWorkbook wb = new XSSFWorkbook(excelFileToRead);
+                this.wbs.add(wb);
+            }
         } catch (IOException e) {
             System.out.println("[FAIL] Catch Exception: " + e.getMessage());
         }
+
+        return true;
     }
 
-    public void initF(String folderDir) {
-        // InputStream ExcelFileFolderToRead = new FileInputStream(folderDir);
-        // wbs = new ArrayList<XSSFWorkbook>();
+    public ArrayList<Pair<String, String>> extractWbs() {
+        System.out.println("[INFO] Start extracting ...");
 
-        ArrayList<String> filesDir = new ArrayList<String>();
-        try {
-            Files.newDirectoryStream(Paths.get(folderDir),
-            path -> path.toString().endsWith(".xlsm"))
-            .forEach(System.out::println);
-        } catch (IOException e) {
-            System.out.println("[FAIL] Catch Exception: " + e.getMessage());
+        for(XSSFWorkbook wb : this.wbs) {
+            ArrayList<Pair<String, String>> temp = this.extractWb(wb);
+            this.extracted.addAll(temp);
         }
+
+        System.out.println("[INFO] Total entry extracted: " + this.extracted.size());
+
+        return this.extracted;
     }
     
     /**
      * this function will read the first sheet and print fullname and skills columns
      */
-    public ArrayList read() {
+    private ArrayList<Pair<String, String>> extractWb(XSSFWorkbook wb) {
         XSSFSheet sheet = wb.getSheetAt(0);
         XSSFRow row;
         XSSFCell fullNameCell;
         XSSFCell skillsCell;
 
-        ArrayList result = new ArrayList<Pair<String, String>>();
+        ArrayList<Pair<String, String>> result = new ArrayList<Pair<String, String>>();
 
         Iterator rows = sheet.rowIterator();
 
@@ -78,13 +97,39 @@ public class XlsxHandler {
                 if (fullNameCell.getCellType() == CellType.STRING){
                     String fullName = fullNameCell.getStringCellValue();
                     String skills = skillsCell.getStringCellValue();
-                    // System.out.print(fullName+" -- ");
-                    // System.out.println(skills + " ");
                     Pair p = new Pair<String, String>(fullName, skills);
                     result.add(p);
                 }
             }
         }
         return result;
+    }
+
+    private ArrayList<Path> getPaths(String folderDir) {
+        ArrayList<Path> paths = new ArrayList<Path>();
+
+        try {
+            Files.newDirectoryStream(Paths.get(folderDir),
+            path -> path.toString().endsWith(".xlsm"))
+            .forEach(filePath -> {
+                if (Files.isRegularFile(filePath)) {
+                    try {
+                        paths.add(filePath);
+                        System.out.println("[INFO] File detected: " + filePath.toString());
+                    } catch (Exception e) {
+                        System.out.println("[FAIL] Catch Exception: " + e.getMessage());        
+                    }
+                }
+            });
+        } catch (IOException e) {
+            System.out.println("[FAIL] Catch Exception: " + e.getMessage());
+        }
+        if (paths.size() != 0) {
+            System.out.println("[INFO] Total Found files (.xlsm): " + paths.size());
+        } else {
+            System.out.println("[ERROR] Cannot find any file (.xlsm)");
+        }
+
+        return paths;
     }
 }

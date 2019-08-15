@@ -12,26 +12,30 @@ import javafx.util.Pair;
  */
 public class App {
     public String getGreeting() {
-        return "[SUCCESS] Program started";
+        return ("[SUCCESS] Program started");
+    }
+
+    public String getBye() {
+        return ("[SUCCESS] Program end");
     }
 
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
 
-        DBHandler db = new DBHandler();
-        db.init();
+        // DBHandler db = new DBHandler();
+        // db.init();
         // db.end();
 
         ArrayList pair_list = new ArrayList<Pair<String, String>>();
         XlsxHandler handler = new XlsxHandler();
+        InvertedIndexBuilder indexBuilder = new InvertedIndexBuilder();
         // INFO: strict OOXML format is not supported for apache poi currently
         // file must be in other format such as xlsm
-        String fileDir = "src/main/resources/worddata1.xlsm";
+        String folderDir = "src/main/resources/";
 
-        handler.init(fileDir);
-        pair_list = handler.read();
+        handler.init(folderDir);
+        pair_list = handler.extractWbs();
 
-        InvertedIndexBuilder indexBuilder = new InvertedIndexBuilder();
         Iterator<Pair<String, String>> pairsIterator = pair_list.iterator();
 
         while (pairsIterator.hasNext()) {
@@ -43,5 +47,7 @@ public class App {
         // indexBuilder.print_skill_fullName();
         indexBuilder.calculate();
         indexBuilder.print_tfidfList();
+        
+        System.out.println(new App().getBye());
     }
 }
