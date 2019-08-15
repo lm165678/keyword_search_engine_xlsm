@@ -1,4 +1,6 @@
 # keyword_search_seedsprint
+[![Build Status](https://travis-ci.com/zhongjis/keyword_search_seedsprint.svg?branch=master)](https://travis-ci.com/zhongjis/keyword_search_seedsprint)
+
 this is a simple keyword matching system for Seedsprint. 
 
 ## Set Ups:
