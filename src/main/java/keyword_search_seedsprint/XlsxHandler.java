@@ -10,7 +10,10 @@ import java.nio.file.Paths;
 import java.nio.file.Path;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 import javafx.util.Pair;
 
@@ -65,7 +68,12 @@ public class XlsxHandler {
         System.out.println("[INFO] Start extracting ...");
 
         for(XSSFWorkbook wb : this.wbs) {
-            ArrayList<Pair<String, String>> temp = this.extractWb(wb);
+            Map<String, Integer> colIxMap = this.getColIxMap(wb);
+
+            int fullNameInx = colIxMap.get("fullName");
+            int allSkillsInx = colIxMap.get("allSkills");
+
+            ArrayList<Pair<String, String>> temp = this.extractWb(wb, fullNameInx, allSkillsInx);
             this.extracted.addAll(temp);
         }
 
@@ -73,11 +81,27 @@ public class XlsxHandler {
 
         return this.extracted;
     }
+
+    private Map<String, Integer> getColIxMap(XSSFWorkbook wb) {
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        XSSFSheet sheet = wb.getSheetAt(0);
+        XSSFRow row = sheet.getRow(0);
+
+        short minColIx = row.getFirstCellNum();
+        short maxColIx = row.getLastCellNum();
+        
+        for(short colIx=minColIx; colIx<maxColIx; colIx++) {
+            XSSFCell cell = row.getCell(colIx);
+            map.put(cell.getStringCellValue(),cell.getColumnIndex());
+        }
+
+        return map;
+    }
     
     /**
      * this function will read the first sheet and print fullname and skills columns
      */
-    private ArrayList<Pair<String, String>> extractWb(XSSFWorkbook wb) {
+    private ArrayList<Pair<String, String>> extractWb(XSSFWorkbook wb, int fullNameInx, int allSkillsInx) {
         XSSFSheet sheet = wb.getSheetAt(0);
         XSSFRow row;
         XSSFCell fullNameCell;
@@ -89,8 +113,8 @@ public class XlsxHandler {
 
         while (rows.hasNext()) {
             row = (XSSFRow) rows.next();
-            fullNameCell = row.getCell(4); // full name
-            skillsCell = row.getCell(28); // skills
+            fullNameCell = row.getCell(fullNameInx); // full name
+            skillsCell = row.getCell(allSkillsInx); // skills
 
             // this part only handles string cells
             if (fullNameCell != null && skillsCell != null){
