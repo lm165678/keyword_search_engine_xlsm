@@ -9,14 +9,14 @@ this is a simple keyword matching system for Seedsprint.
 - should have a collection called **fullname_skills** 
 
 ### 2: Gradle
-- this program is built using Gradle. if you need to install it. you can use brew:
+- this program is built using Gradle. if you need to install the tool. you can use brew:
 > brew install Gradle <br>
 - if you want to run the program, please navigate to the project folder and run:
 > gradle init && gradle run
 
 ### 3: Source File
-- please put source file under ***/src/main/resources*** 
-- due to the format limitation of .xlsx file, please convert it to xlsm. 
+- please put all source files under ***/src/main/resources*** 
+- due to the format limitation of .xlsx file, please convert them to .xlsm. About how to do this. please check this [link](https://support.office.com/en-us/article/save-a-workbook-in-another-file-format-6a16c862-4a36-48f9-a300-c2ca0065286e) 
 
 ## Example Output
 - all skills will be printed in the console like
@@ -33,9 +33,12 @@ this is a simple keyword matching system for Seedsprint.
 **bigger the tfidf is, means the skill is rarer**. I will add a ranking program later to rank all the term/skills.
 
 ## Known Issues
-1. due to the layout differences among all workdata files. the skill and names extraction feature is not functioning correctly.
+1. temporary file such as ~$worddata.xlsm will also be considered valid input file.
 
 ## Update:
+### August 18th, 2019
+- fixed a bug that XLSXHandler cannot get the right fullName and skill columns
+
 ### August 14th, 2019
 - now the program will find all .xslm files under resources folder.
 - now you will see more prompts and know what's going on in the program. this also helps debugging.
