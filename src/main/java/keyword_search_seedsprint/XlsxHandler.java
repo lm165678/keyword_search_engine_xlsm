@@ -58,14 +58,14 @@ public class XlsxHandler {
                 this.wbs.add(wb);
             }
         } catch (IOException e) {
-            System.out.println("[FAIL] Catch Exception: " + e.getMessage());
+            MessageHandler.printErrorMessage("Catch Exception: " + e.getMessage());
         }
 
         return true;
     }
 
     public ArrayList<Pair<String, String>> extractWbs() {
-        System.out.println("[INFO] Start extracting ...");
+        MessageHandler.printInfoMessage("Start extracting ...");
 
         for(XSSFWorkbook wb : this.wbs) {
             Map<String, Integer> colIxMap = this.getColIxMap(wb);
@@ -76,8 +76,7 @@ public class XlsxHandler {
             ArrayList<Pair<String, String>> temp = this.extractWb(wb, fullNameInx, allSkillsInx);
             this.extracted.addAll(temp);
         }
-
-        System.out.println("[INFO] Total entry extracted: " + this.extracted.size());
+        MessageHandler.printInfoMessage("Total entry extracted: " + this.extracted.size());
 
         return this.extracted;
     }
@@ -139,19 +138,19 @@ public class XlsxHandler {
                 if (Files.isRegularFile(filePath)) {
                     try {
                         paths.add(filePath);
-                        System.out.println("[INFO] File detected: " + filePath.toString());
+                        MessageHandler.printInfoMessage("[INFO] File detected: " + filePath.toString());
                     } catch (Exception e) {
-                        System.out.println("[FAIL] Catch Exception: " + e.getMessage());        
+                        MessageHandler.printErrorMessage("[FAIL] Catch Exception: " + e.getMessage());  
                     }
                 }
             });
         } catch (IOException e) {
-            System.out.println("[FAIL] Catch Exception: " + e.getMessage());
+            MessageHandler.printErrorMessage("Catch Exception: " + e.getMessage());
         }
         if (paths.size() != 0) {
-            System.out.println("[INFO] Total Found files (.xlsm): " + paths.size());
+            MessageHandler.printInfoMessage("Total Found files (.xlsm): " + paths.size());
         } else {
-            System.out.println("[ERROR] Cannot find any file (.xlsm)");
+            MessageHandler.printErrorMessage("Cannot find any file (.xlsm)");
         }
 
         return paths;
