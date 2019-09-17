@@ -20,17 +20,16 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 /**
  * @author Zhongjie Shen
  */
-public class DBHandler 
-{
+public class DBHandler {
     private MongoClient mongoClient;
     private DB database;
     private DBCollection collection;
- 
+
     /**
      * constructor
      */
     public DBHandler() {
-        return;
+	return;
     }
 
     /**
@@ -40,7 +39,7 @@ public class DBHandler
         mongoClient = new MongoClient("localhost" , 27017);
         database = mongoClient.getDB("workdata_seedsprint");
         collection = database.getCollection("fullname_skills");
-        System.out.println("[SUCCESS] database connected. collection chosen: fullname_skills");
+        MessageHandler.printSuccessMessage("database connected. collection chosen: fullname_skills");
     }
 
     /**
@@ -48,8 +47,7 @@ public class DBHandler
      */
     public void end() {
         this.mongoClient.close();
-        System.out.println("[SUCCESS] database closed");   
+        MessageHandler.printSuccessMessage("database closed") ;
     }
-
 
 }
