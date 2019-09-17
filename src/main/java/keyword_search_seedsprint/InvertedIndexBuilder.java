@@ -51,7 +51,7 @@ class InvertedIndexBuilder {
     }
 
     public ArrayList<Pair<String, Double>> calculate() {
-        System.out.println("[SUCCESS] Start calculating...");
+        MessageHandler.printSuccessMessage("Start calculating...");
 
         int doc_total; // total skill count under one entry
         int docs_total = this.calculateDocsTotal(); // total skill count under all entries
@@ -84,21 +84,21 @@ class InvertedIndexBuilder {
 
     public void print_tfidfList() {
         for (Pair<String, Double> p : this.tfidfList) {
-            System.out.println("[INFO] term: " + p.getKey() + ": tfidf " + p.getValue());
+            MessageHandler.printInfoMessage("term " + p.getKey() + ": tfidf " + p.getValue());
         }
     }
 
     public void print_fullName_skill() {
         for (Entry<String, ArrayList<String>> entry : this.dict_fullName_skills.entrySet()) {
-            System.out.println("fullName: " + entry.getKey());
-            System.out.println("skills: " + entry.getValue());
+            MessageHandler.printDebugMessage("fullName: " + entry.getKey());
+            MessageHandler.printDebugMessage("skills: " + entry.getValue());
         }
     }
 
     public void print_skill_fullName() {
         for (Entry<String, ArrayList<String>> entry : this.dict_skill_fullNames.entrySet()) {
-            System.out.println("skill: " + entry.getKey());
-            System.out.println("names: " + entry.getValue());
+            MessageHandler.printDebugMessage("skill: " + entry.getKey());
+            MessageHandler.printDebugMessage("names: " + entry.getValue());
         }
     }
     

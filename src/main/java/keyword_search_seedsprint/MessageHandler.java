@@ -8,6 +8,7 @@ public class MessageHandler {
     private static String successText = "[Success]";
     private static String errorText = "[ERROR]";
     private static String infoText = "[INFO]";
+    private static String debugText = "[DEBUG]";
 
     public MessageHandler() {}
 
@@ -23,6 +24,10 @@ public class MessageHandler {
         return infoText + " " + msg;
     }
 
+    public static String getDebugMessage(String msg) {
+        return debugText + " " + msg;
+    }
+
     public static void printSuccessMessage(String msg) {
         String outputMsg = getSuccessMessage(msg);
         System.out.println(msg);
@@ -35,6 +40,11 @@ public class MessageHandler {
 
     public static void printInfoMessage(String msg) {
         String outputMsg = getInfoMessage(msg);
+        System.out.println(msg);
+    }
+
+    public static void printDebugMessage(String msg) {
+        String outputMsg = getDebugMessage(msg);
         System.out.println(msg);
     }
 }
