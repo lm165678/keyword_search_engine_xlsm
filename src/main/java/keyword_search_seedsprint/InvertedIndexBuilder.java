@@ -84,7 +84,7 @@ class InvertedIndexBuilder {
 
     public void print_tfidfList() {
         for (Pair<String, Double> p : this.tfidfList) {
-            MessageHandler.printInfoMessage("term " + p.getKey() + ": tfidf " + p.getValue());
+            MessageHandler.printDebugMessage("term: " + p.getKey() + " tfidf: " + p.getValue());
         }
     }
 

@@ -38,6 +38,6 @@ public class App {
         indexBuilder.calculate();
         indexBuilder.print_tfidfList();
         
-        MessageHandler.printSuccessMessage("[SUCCESS] Program ending...");
+        MessageHandler.printSuccessMessage("Program ending...");
     }
 }

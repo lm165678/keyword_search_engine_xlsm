@@ -30,21 +30,21 @@ public class MessageHandler {
 
     public static void printSuccessMessage(String msg) {
         String outputMsg = getSuccessMessage(msg);
-        System.out.println(msg);
+        System.out.println(outputMsg);
     }
 
     public static void printErrorMessage(String msg) {
         String outputMsg = getErrorMessage(msg);
-        System.out.println(msg);
+        System.out.println(outputMsg);
     }
 
     public static void printInfoMessage(String msg) {
         String outputMsg = getInfoMessage(msg);
-        System.out.println(msg);
+        System.out.println(outputMsg);
     }
 
     public static void printDebugMessage(String msg) {
         String outputMsg = getDebugMessage(msg);
-        System.out.println(msg);
+        System.out.println(outputMsg);
     }
 }
