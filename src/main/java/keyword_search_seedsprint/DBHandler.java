@@ -36,18 +36,18 @@ public class DBHandler {
      * this method init basic objects
      */
     public void init() {
-	mongoClient = new MongoClient("localhost", 27017);
-	database = mongoClient.getDB("workdata_seedsprint");
-	collection = database.getCollection("fullname_skills");
-	System.out.println("[SUCCESS] database connected. collection chosen: fullname_skills");
+        mongoClient = new MongoClient("localhost" , 27017);
+        database = mongoClient.getDB("workdata_seedsprint");
+        collection = database.getCollection("fullname_skills");
+        MessageHandler.printSuccessMessage("database connected. collection chosen: fullname_skills");
     }
 
     /**
      * this method ends all handler instances.
      */
     public void end() {
-	this.mongoClient.close();
-	System.out.println("[SUCCESS] database closed");
+        this.mongoClient.close();
+        MessageHandler.printSuccessMessage("database closed") ;
     }
 
 }

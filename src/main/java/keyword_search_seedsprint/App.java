@@ -4,6 +4,7 @@
 package keyword_search_seedsprint;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.ArrayList;
 import javafx.util.Pair;
 
@@ -11,27 +12,17 @@ import javafx.util.Pair;
  * @author Zhongjie Shen
  */
 public class App {
-    public String getGreeting() {
-	return ("[SUCCESS] Program started");
-    }
-
-    public String getBye() {
-	return ("[SUCCESS] Program end");
-    }
-
     public static void main(String[] args) {
-	System.out.println(new App().getGreeting());
+        MessageHandler.printSuccessMessage("Program starting...");
 
 	// DBHandler db = new DBHandler();
 	// db.init();
 	// db.end();
 
-	ArrayList pair_list = new ArrayList<Pair<String, String>>();
-	XlsxHandler handler = new XlsxHandler();
-	InvertedIndexBuilder indexBuilder = new InvertedIndexBuilder();
-	// INFO: strict OOXML format is not supported for apache poi currently
-	// file must be in other format such as xlsm
-	String folderDir = "src/main/resources/";
+        List pair_list = new ArrayList<Pair<String, String>>();
+        XlsxHandler handler = new XlsxHandler();
+        InvertedIndexBuilder indexBuilder = new InvertedIndexBuilder();
+        String folderDir = "src/main/resources/";
 
 	handler.init(folderDir);
 	pair_list = handler.extractWbs();
@@ -43,11 +34,11 @@ public class App {
 	    indexBuilder.add_token(p.getKey(), p.getValue());
 	}
 
-	// indexBuilder.print_fullName_skill();
-	// indexBuilder.print_skill_fullName();
-	indexBuilder.calculate();
-	indexBuilder.print_tfidfList();
-
-	System.out.println(new App().getBye());
+	    // indexBuilder.print_fullName_skill();
+	    // indexBuilder.print_skill_fullName();
+        indexBuilder.calculate();
+        indexBuilder.print_tfidfList();
+        
+        MessageHandler.printSuccessMessage("Program ending...");
     }
 }
