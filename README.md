@@ -1,7 +1,7 @@
-# keyword_search_seedsprint
-[![Build Status](https://travis-ci.com/zhongjis/keyword_search_seedsprint.svg?branch=master)](https://travis-ci.com/zhongjis/keyword_search_seedsprint)
+# keyword_search_engine_xlsm
+[![Build Status](https://travis-ci.com/zhongjis/keyword_search_engine_xlsm.svg?branch=master)](https://travis-ci.com/zhongjis/keyword_search_engine_xlsm)
 
-This is a simple keyword matching system for [Seedsprint](https://www.seedsprint.com). 
+This is a simple keyword matching system built for [Seedsprint](https://www.seedsprint.com). 
 
 ## Express Setup:
 ### Run following commands in bash under the folder as you like:
