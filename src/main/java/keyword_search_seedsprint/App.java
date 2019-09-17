@@ -13,16 +13,16 @@ import javafx.util.Pair;
  */
 public class App {
     public static void main(String[] args) {
-        MessageHandler.printSuccessMessage("Program starting...");
+	MessageHandler.printSuccessMessage("Program starting...");
 
 	// DBHandler db = new DBHandler();
 	// db.init();
 	// db.end();
 
-        List pair_list = new ArrayList<Pair<String, String>>();
-        XlsxHandler handler = new XlsxHandler();
-        InvertedIndexBuilder indexBuilder = new InvertedIndexBuilder();
-        String folderDir = "src/main/resources/";
+	List pair_list = new ArrayList<Pair<String, String>>();
+	XlsxHandler handler = new XlsxHandler();
+	InvertedIndexBuilder indexBuilder = new InvertedIndexBuilder();
+	String folderDir = "src/main/resources/";
 
 	handler.init(folderDir);
 	pair_list = handler.extractWbs();
@@ -34,11 +34,11 @@ public class App {
 	    indexBuilder.add_token(p.getKey(), p.getValue());
 	}
 
-	    // indexBuilder.print_fullName_skill();
-	    // indexBuilder.print_skill_fullName();
-        indexBuilder.calculate();
-        indexBuilder.print_tfidfList();
-        
-        MessageHandler.printSuccessMessage("Program ending...");
+	// indexBuilder.print_fullName_skill();
+	// indexBuilder.print_skill_fullName();
+	indexBuilder.calculate();
+	indexBuilder.print_tfidfList();
+
+	MessageHandler.printSuccessMessage("Program ending...");
     }
 }

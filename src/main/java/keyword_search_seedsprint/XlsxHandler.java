@@ -48,25 +48,25 @@ public class XlsxHandler {
 
 	ArrayList<Path> paths = this.getPaths(folderDir);
 
-        if (paths.size() == 0)
-            return false;
-        
-        try {
-            for (Path path : paths) {
-                String fileDir = path.toString();
-                InputStream excelFileToRead = new FileInputStream(fileDir);
-                XSSFWorkbook wb = new XSSFWorkbook(excelFileToRead);
-                this.wbs.add(wb);
-            }
-        } catch (IOException e) {
-            MessageHandler.printErrorMessage("Catch Exception: " + e.getMessage());
-        }
+	if (paths.size() == 0)
+	    return false;
+
+	try {
+	    for (Path path : paths) {
+		String fileDir = path.toString();
+		InputStream excelFileToRead = new FileInputStream(fileDir);
+		XSSFWorkbook wb = new XSSFWorkbook(excelFileToRead);
+		this.wbs.add(wb);
+	    }
+	} catch (IOException e) {
+	    MessageHandler.printErrorMessage("Catch Exception: " + e.getMessage());
+	}
 
 	return true;
     }
 
     public ArrayList<Pair<String, String>> extractWbs() {
-        MessageHandler.printInfoMessage("Start extracting ...");
+	MessageHandler.printInfoMessage("Start extracting ...");
 
 	for (XSSFWorkbook wb : this.wbs) {
 	    Map<String, Integer> colIxMap = this.getColIxMap(wb);
@@ -74,13 +74,13 @@ public class XlsxHandler {
 	    int fullNameInx = colIxMap.get("fullName");
 	    int allSkillsInx = colIxMap.get("allSkills");
 
-            ArrayList<Pair<String, String>> temp = this.extractWb(wb, fullNameInx, allSkillsInx);
-            this.extracted.addAll(temp);
-        }
-        
-        MessageHandler.printInfoMessage("Total entry extracted: " + this.extracted.size());
+	    ArrayList<Pair<String, String>> temp = this.extractWb(wb, fullNameInx, allSkillsInx);
+	    this.extracted.addAll(temp);
+	}
 
-        return this.extracted;
+	MessageHandler.printInfoMessage("Total entry extracted: " + this.extracted.size());
+
+	return this.extracted;
     }
 
     private Map<String, Integer> getColIxMap(XSSFWorkbook wb) {
@@ -133,27 +133,26 @@ public class XlsxHandler {
     private ArrayList<Path> getPaths(String folderDir) {
 	ArrayList<Path> paths = new ArrayList<Path>();
 
-        try {
-            Files.newDirectoryStream(Paths.get(folderDir),
-            path -> path.toString().endsWith(".xlsm"))
-            .forEach(filePath -> {
-                if (Files.isRegularFile(filePath)) {
-                    try {
-                        paths.add(filePath);
-                        MessageHandler.printInfoMessage("[INFO] File detected: " + filePath.toString());
-                    } catch (Exception e) {
-                        MessageHandler.printErrorMessage("[FAIL] Catch Exception: " + e.getMessage());  
-                    }
-                }
-            });
-        } catch (IOException e) {
-            MessageHandler.printErrorMessage("Catch Exception: " + e.getMessage());
-        }
-        if (paths.size() != 0) {
-            MessageHandler.printInfoMessage("Total Found files (.xlsm): " + paths.size());
-        } else {
-            MessageHandler.printErrorMessage("Cannot find any file (.xlsm)");
-        }
+	try {
+	    Files.newDirectoryStream(Paths.get(folderDir), path -> path.toString().endsWith(".xlsm"))
+		    .forEach(filePath -> {
+			if (Files.isRegularFile(filePath)) {
+			    try {
+				paths.add(filePath);
+				MessageHandler.printInfoMessage("[INFO] File detected: " + filePath.toString());
+			    } catch (Exception e) {
+				MessageHandler.printErrorMessage("[FAIL] Catch Exception: " + e.getMessage());
+			    }
+			}
+		    });
+	} catch (IOException e) {
+	    MessageHandler.printErrorMessage("Catch Exception: " + e.getMessage());
+	}
+	if (paths.size() != 0) {
+	    MessageHandler.printInfoMessage("Total Found files (.xlsm): " + paths.size());
+	} else {
+	    MessageHandler.printErrorMessage("Cannot find any file (.xlsm)");
+	}
 
 	return paths;
     }
