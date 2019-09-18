@@ -1,18 +1,24 @@
-# keyword_search_seedsprint
-[![Build Status](https://travis-ci.com/zhongjis/keyword_search_seedsprint.svg?branch=master)](https://travis-ci.com/zhongjis/keyword_search_seedsprint)
+# keyword_search_engine_xlsm
+[![Build Status](https://travis-ci.com/zhongjis/keyword_search_engine_xlsm.svg?branch=master)](https://travis-ci.com/zhongjis/keyword_search_engine_xlsm)
 
-this is a simple keyword matching system for Seedsprint. 
+This is a simple keyword matching system built for [Seedsprint](https://www.seedsprint.com). 
 
-## Set Ups:
-### 1: MongoDB
+## Express Setup:
+### Run following commands in bash under the folder as you like:
+> git clone https://github.com/zhongjis/keyword_search_engine_xlsm.git <br>
+> cd keyword_search_engine_xlsm <br>
+> gradle run <br>
+
+## Set Up Details:
+### 1: MongoDB (Currently not used)
 - should have a db called **workdata_seedsprint** 
 - should have a collection called **fullname_skills** 
 
 ### 2: Gradle
-- this program is built using Gradle. if you need to install the tool. you can use brew:
+- this program is built with Gradle. if you need to install the tool. you can use homebrew:
 > brew install Gradle <br>
-- if you want to run the program, please navigate to the project folder and run:
-> gradle init && gradle run
+- if you want to run the program, please navigate to the project root folder and run:
+> gradle run
 
 ### 3: Source File
 - please put all source files under ***/src/main/resources*** 
@@ -33,9 +39,12 @@ this is a simple keyword matching system for Seedsprint.
 **bigger the tfidf is, means the skill is rarer**. I will add a ranking program later to rank all the term/skills.
 
 ## Known Issues
-1. temporary file such as ~$worddata.xlsm will also be considered valid input file.
+1. temporary file such as ~$worddata.xlsm will also be considered as valid input file.
 
 ## Update:
+### August 17th, 2019
+- House cleaning
+
 ### August 18th, 2019
 - fixed a bug that XLSXHandler cannot get the right fullName and skill columns
 
