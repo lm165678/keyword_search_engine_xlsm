@@ -1,4 +1,6 @@
-package keyword_search_seedsprint;
+package KeywordSearchEngine.model;
+
+import KeywordSearchEngine.util.MessageHandler;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -22,19 +24,19 @@ import org.apache.poi.ss.usermodel.CellType;
 /**
  * @author Zhongjie Shen
  */
-public class XlsxHandler {
+public class XlsmHandler {
 
   private ArrayList<XSSFWorkbook> wbs;
   private ArrayList<Pair<String, String>> extracted; // Pair<fullname:skills>
 
-  public XlsxHandler() {
+  public XlsmHandler() {
     this.wbs = new ArrayList<XSSFWorkbook>();
     this.extracted = new ArrayList<Pair<String, String>>();
     return;
   }
 
   /**
-   * init XlsxHandler with a folderDir String
+   * init XlsmHandler with a folderDir String
    * 
    * @param folderDir src folder dir
    * @return true if folder is not empty

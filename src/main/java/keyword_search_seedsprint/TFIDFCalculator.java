@@ -1,4 +1,4 @@
-package keyword_search_seedsprint;
+package KeywordSearchEngine.util;
 
 import java.util.Arrays;
 import java.util.List;

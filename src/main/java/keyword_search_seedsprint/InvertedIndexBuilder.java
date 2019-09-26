@@ -1,4 +1,7 @@
-package keyword_search_seedsprint;
+package KeywordSearchEngine.model;
+
+import KeywordSearchEngine.util.MessageHandler;
+import KeywordSearchEngine.util.TFIDFCalculator;
 
 import java.util.Map.*;
 import java.util.HashMap;

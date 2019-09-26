@@ -1,4 +1,4 @@
-package keyword_search_seedsprint;
+package KeywordSearchEngine.util;
 
 /**
  * @author Zhongjie Shen

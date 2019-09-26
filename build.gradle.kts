@@ -45,7 +45,7 @@ dependencies {
 
 application {
     // Define the main class for the application
-    mainClassName = "keyword_search_seedsprint.App"
+    mainClassName = "KeywordSearchEngine.model.App"
 }
 
 javafx {

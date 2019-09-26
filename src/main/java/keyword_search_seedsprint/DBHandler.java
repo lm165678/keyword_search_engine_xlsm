@@ -1,4 +1,6 @@
-package keyword_search_seedsprint;
+package KeywordSearchEngine.model;
+
+import KeywordSearchEngine.util.MessageHandler;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.BulkWriteOperation;
@@ -11,6 +13,7 @@ import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.ParallelScanOptions;
 import com.mongodb.ServerAddress;
+
 import java.util.List;
 import java.util.Set;
 import static java.util.concurrent.TimeUnit.SECONDS;
