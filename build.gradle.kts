@@ -46,6 +46,8 @@ dependencies {
 application {
     // Define the main class for the application
     mainClassName = "KeywordSearchEngine.model.App"
+
+    applicationName = "keyword_search_engine_xlsm"
 }
 
 javafx {
