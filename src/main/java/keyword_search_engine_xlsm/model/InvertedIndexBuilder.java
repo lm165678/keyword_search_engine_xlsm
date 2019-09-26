@@ -12,7 +12,7 @@ import javafx.util.Pair;
 /**
  * @author Zhongjie Shen
  */
-class InvertedIndexBuilder {
+public class InvertedIndexBuilder {
 
   HashMap<String, ArrayList<String>> dict_fullName_skills; // dict[fullName] = [skill]
   HashMap<String, ArrayList<String>> dict_skill_fullNames; // dict[skill] = [fullName]
