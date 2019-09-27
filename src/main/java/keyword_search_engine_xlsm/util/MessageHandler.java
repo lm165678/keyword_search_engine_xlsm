@@ -12,39 +12,39 @@ public class MessageHandler {
 
   public MessageHandler() {}
 
-  public static String getSuccessMessage(String msg) {
+  public static String generateSuccessMessage(String msg) {
     return successText + " " + msg;
   }
 
-  public static String getErrorMessage(String msg) {
+  public static String generateErrorMessage(String msg) {
     return errorText + " " + msg;
   }
 
-  public static String getInfoMessage(String msg) {
+  public static String generateInfoMessage(String msg) {
     return infoText + " " + msg;
   }
 
-  public static String getDebugMessage(String msg) {
+  public static String generateDebugMessage(String msg) {
     return debugText + " " + msg;
   }
 
-  public static void printSuccessMessage(String msg) {
-    String outputMsg = getSuccessMessage(msg);
+  public static void successMessage(String msg) {
+    String outputMsg = generateSuccessMessage(msg);
     System.out.println(outputMsg);
   }
 
-  public static void printErrorMessage(String msg) {
-    String outputMsg = getErrorMessage(msg);
+  public static void errorMessage(String msg) {
+    String outputMsg = generateErrorMessage(msg);
     System.out.println(outputMsg);
   }
 
-  public static void printInfoMessage(String msg) {
-    String outputMsg = getInfoMessage(msg);
+  public static void infoMessage(String msg) {
+    String outputMsg = generateInfoMessage(msg);
     System.out.println(outputMsg);
   }
 
-  public static void printDebugMessage(String msg) {
-    String outputMsg = getDebugMessage(msg);
+  public static void debugMessage(String msg) {
+    String outputMsg = generateDebugMessage(msg);
     System.out.println(outputMsg);
   }
 }

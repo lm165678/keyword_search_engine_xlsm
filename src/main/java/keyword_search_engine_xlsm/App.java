@@ -12,7 +12,7 @@ import javafx.util.Pair;
  */
 public class App {
   public static void main(String[] args) {
-    MessageHandler.printSuccessMessage("Program starting...");
+    MessageHandler.successMessage("Program starting...");
 
     // DBHandler db = new DBHandler();
     // db.init();
@@ -38,6 +38,6 @@ public class App {
     indexBuilder.calculate();
     indexBuilder.print_tfidfList();
 
-    MessageHandler.printSuccessMessage("Program ending...");
+    MessageHandler.successMessage("Program ending...");
   }
 }

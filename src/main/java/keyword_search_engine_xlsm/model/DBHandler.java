@@ -40,7 +40,7 @@ public class DBHandler {
     mongoClient = new MongoClient("localhost", 27017);
     database = mongoClient.getDB("workdata_seedsprint");
     collection = database.getCollection("fullname_skills");
-    MessageHandler.printSuccessMessage("database connected. collection chosen: fullname_skills");
+    MessageHandler.successMessage("database connected. collection chosen: fullname_skills");
   }
 
   /**
@@ -48,7 +48,7 @@ public class DBHandler {
    */
   public void end() {
     this.mongoClient.close();
-    MessageHandler.printSuccessMessage("database closed");
+    MessageHandler.successMessage("database closed");
   }
 
 }
