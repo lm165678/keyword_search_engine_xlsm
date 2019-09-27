@@ -57,14 +57,14 @@ public class XlsmHandler {
         this.wbs.add(wb);
       }
     } catch (IOException e) {
-      MessageHandler.printErrorMessage("Catch Exception: " + e.getMessage());
+      MessageHandler.errorMessage("Catch Exception: " + e.getMessage());
     }
 
     return true;
   }
 
   public ArrayList<Pair<String, String>> extractWbs() {
-    MessageHandler.printInfoMessage("Start extracting ...");
+    MessageHandler.infoMessage("Start extracting ...");
 
     for (XSSFWorkbook wb : this.wbs) {
       Map<String, Integer> colIxMap = this.getColIxMap(wb);
@@ -76,7 +76,7 @@ public class XlsmHandler {
       this.extracted.addAll(temp);
     }
 
-    MessageHandler.printInfoMessage("Total entry extracted: " + this.extracted.size());
+    MessageHandler.infoMessage("Total entry extracted: " + this.extracted.size());
 
     return this.extracted;
   }
@@ -138,19 +138,19 @@ public class XlsmHandler {
             if (Files.isRegularFile(filePath)) {
               try {
                 paths.add(filePath);
-                MessageHandler.printInfoMessage("[INFO] File detected: " + filePath.toString());
+                MessageHandler.infoMessage("[INFO] File detected: " + filePath.toString());
               } catch (Exception e) {
-                MessageHandler.printErrorMessage("[FAIL] Catch Exception: " + e.getMessage());
+                MessageHandler.errorMessage("[FAIL] Catch Exception: " + e.getMessage());
               }
             }
           });
     } catch (IOException e) {
-      MessageHandler.printErrorMessage("Catch Exception: " + e.getMessage());
+      MessageHandler.errorMessage("Catch Exception: " + e.getMessage());
     }
     if (paths.size() != 0) {
-      MessageHandler.printInfoMessage("Total Found files (.xlsm): " + paths.size());
+      MessageHandler.infoMessage("Total Found files (.xlsm): " + paths.size());
     } else {
-      MessageHandler.printErrorMessage("Cannot find any file (.xlsm)");
+      MessageHandler.errorMessage("Cannot find any file (.xlsm)");
     }
 
     return paths;

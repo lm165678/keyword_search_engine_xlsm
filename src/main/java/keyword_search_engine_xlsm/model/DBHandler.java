@@ -42,11 +42,11 @@ public class DBHandler {
       this.database = mongoClient.getDatabase(this.dbName);
       this.collection = database.getCollection(this.colName);
     } catch (IllegalArgumentException e) {
-      MessageHandler.printErrorMessage(e.getMessage());
+      MessageHandler.errorMessage(e.getMessage());
       return false;
     }
     
-    MessageHandler.printSuccessMessage("database " + database.getName() + " connected. collection chosen: " + collection.getNamespace());
+    MessageHandler.successMessage("database " + database.getName() + " connected. collection chosen: " + collection.getNamespace());
     return true;
   }
 
@@ -55,7 +55,7 @@ public class DBHandler {
    */
   public void end() {
     this.mongoClient.close();
-    MessageHandler.printSuccessMessage("database closed");
+    MessageHandler.successMessage("database closed");
   }
 
 }

@@ -12,7 +12,7 @@ import javafx.util.Pair;
  */
 public class App {
   public static void main(String[] args) {
-    MessageHandler.printSuccessMessage("Program starting...");
+    MessageHandler.successMessage("Program starting...");
 
     String dbName = "workdata_seedsprint";
     String colName = "fullname_skills";
@@ -44,6 +44,6 @@ public class App {
     indexBuilder.calculate();
     // indexBuilder.print_tfidfList();
 
-    MessageHandler.printSuccessMessage("Program ending...");
+    MessageHandler.successMessage("Program ending...");
   }
 }
