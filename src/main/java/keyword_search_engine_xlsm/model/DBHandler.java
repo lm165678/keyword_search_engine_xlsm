@@ -2,17 +2,9 @@ package KeywordSearchEngine.model;
 
 import KeywordSearchEngine.util.MessageHandler;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.BulkWriteOperation;
-import com.mongodb.BulkWriteResult;
-import com.mongodb.Cursor;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
-import com.mongodb.ParallelScanOptions;
-import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.MongoCollection;
 
 import java.util.List;
 import java.util.Set;
@@ -22,25 +14,40 @@ import static java.util.concurrent.TimeUnit.SECONDS;
  * @author Zhongjie Shen
  */
 public class DBHandler {
+  private String dbName;
+  private String colName;
   private MongoClient mongoClient;
-  private DB database;
-  private DBCollection collection;
+  private MongoDatabase database;
+  private MongoCollection collection;
 
   /**
    * constructor
+   * @return null
    */
-  public DBHandler() {
+  public DBHandler(String dbName, String colName) {
+    this.dbName = dbName;
+    this.colName = colName;
+
     return;
   }
 
   /**
-   * this method init basic objects
+   * init data base with dbName and colName
+   * FIXME: invalid dbName or colName will also returns true. need to find some new validation method
+   * @return true if connection is built
    */
-  public void init() {
-    mongoClient = new MongoClient("localhost", 27017);
-    database = mongoClient.getDB("workdata_seedsprint");
-    collection = database.getCollection("fullname_skills");
-    MessageHandler.printSuccessMessage("database connected. collection chosen: fullname_skills");
+  public boolean init() {
+    try{
+      this.mongoClient = new MongoClient("localhost", 27017);
+      this.database = mongoClient.getDatabase(this.dbName);
+      this.collection = database.getCollection(this.colName);
+    } catch (IllegalArgumentException e) {
+      MessageHandler.printErrorMessage(e.getMessage());
+      return false;
+    }
+    
+    MessageHandler.printSuccessMessage("database " + database.getName() + " connected. collection chosen: " + collection.getNamespace());
+    return true;
   }
 
   /**

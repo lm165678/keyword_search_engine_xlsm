@@ -14,9 +14,15 @@ public class App {
   public static void main(String[] args) {
     MessageHandler.printSuccessMessage("Program starting...");
 
-    // DBHandler db = new DBHandler();
-    // db.init();
-    // db.end();
+    String dbName = "workdata_seedsprint";
+    String colName = "fullname_skills";
+    DBHandler db = new DBHandler(dbName, colName);
+    boolean dbInitCheck = db.init();
+    if (!dbInitCheck) {
+        MessageHandler.printErrorMessage("DB connection failed. Quitting...");
+        return;
+    }
+    db.end();
 
     List pair_list = new ArrayList<Pair<String, String>>();
     XlsmHandler handler = new XlsmHandler();
@@ -36,7 +42,7 @@ public class App {
     // indexBuilder.print_fullName_skill();
     // indexBuilder.print_skill_fullName();
     indexBuilder.calculate();
-    indexBuilder.print_tfidfList();
+    // indexBuilder.print_tfidfList();
 
     MessageHandler.printSuccessMessage("Program ending...");
   }
