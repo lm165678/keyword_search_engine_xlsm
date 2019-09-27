@@ -19,7 +19,7 @@ public class App {
     DBHandler db = new DBHandler(dbName, colName);
     boolean dbInitCheck = db.init();
     if (!dbInitCheck) {
-        MessageHandler.printErrorMessage("DB connection failed. Quitting...");
+        MessageHandler.errorMessage("DB connection failed. Quitting...");
         return;
     }
     db.end();
