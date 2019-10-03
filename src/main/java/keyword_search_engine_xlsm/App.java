@@ -1,6 +1,9 @@
-package KeywordSearchEngine.model;
+package KeywordSearchEngine;
 
 import KeywordSearchEngine.util.MessageHandler;
+import KeywordSearchEngine.model.DBHandler;
+import KeywordSearchEngine.model.XlsmHandler;
+import KeywordSearchEngine.model.InvertedIndexBuilder;
 
 import java.util.Iterator;
 import java.util.List;
