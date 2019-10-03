@@ -89,6 +89,7 @@ public class InvertedIndexBuilder {
     for (Pair<String, Double> p : this.tfidfList) {
       MessageHandler.debugMessage("term: " + p.getKey() + " tfidf: " + p.getValue());
     }
+    MessageHandler.debugMessage("print_tfidfList");
   }
 
   public void print_fullName_skill() {
@@ -96,6 +97,7 @@ public class InvertedIndexBuilder {
       MessageHandler.debugMessage("fullName: " + entry.getKey());
       MessageHandler.debugMessage("skills: " + entry.getValue());
     }
+    MessageHandler.debugMessage("print_fullName_skill");
   }
 
   public void print_skill_fullName() {
@@ -103,6 +105,7 @@ public class InvertedIndexBuilder {
       MessageHandler.debugMessage("skill: " + entry.getKey());
       MessageHandler.debugMessage("names: " + entry.getValue());
     }
+    MessageHandler.debugMessage("print_skill_fullName");
   }
 
   private int calculateDocsTotal() {
