@@ -45,7 +45,7 @@ dependencies {
 
 application {
     // Define the main class for the application
-    mainClassName = "KeywordSearchEngine.model.App"
+    mainClassName = "KeywordSearchEngine.App"
 
     applicationName = "keyword_search_engine_xlsm"
 }
