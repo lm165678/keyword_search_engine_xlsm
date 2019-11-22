@@ -5,6 +5,7 @@ import KeywordSearchEngine.util.TFIDFCalculator;
 
 import java.util.Map.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import javafx.util.Pair;
@@ -14,25 +15,32 @@ import javafx.util.Pair;
  */
 public class InvertedIndexBuilder {
 
-  HashMap<String, ArrayList<String>> dict_fullName_skills; // dict[fullName] = [skill]
-  HashMap<String, ArrayList<String>> dict_skill_fullNames; // dict[skill] = [fullName]
+  HashMap<String, ArrayList<String>> dict_fullName_skills; // dict[fullName] = [skill] - raw list
+  HashMap<String, ArrayList<String>> dict_skill_fullNames; // dict[skill] = [fullName] - raw list
   ArrayList<Pair<String, Double>> tfidfList;
 
   TFIDFCalculator calculator;
 
   public InvertedIndexBuilder() {
-    dict_fullName_skills = new HashMap<String, ArrayList<String>>();
-    dict_skill_fullNames = new HashMap<String, ArrayList<String>>();
-    tfidfList = new ArrayList<Pair<String, Double>>();
+    // init all dicts
+    dict_fullName_skills = new HashMap<>();
+    dict_skill_fullNames = new HashMap<>();
+    tfidfList = new ArrayList<>();
 
     this.calculator = new TFIDFCalculator();
+
     return;
   }
 
-  public void add_token(String fullName, String allSkills) {
-    StringTokenizer st = new StringTokenizer(allSkills, ",");
+  /**
+   * add tokens into a pre-calculated list
+   * @param fullName  full name of the target
+   * @param document document
+   */
+  public void add_token(String fullName, String document) {
+    StringTokenizer st = new StringTokenizer(document, ",");
 
-    ArrayList<String> skills = new ArrayList<String>();
+    ArrayList<String> skills = new ArrayList<>();
 
     while (st.hasMoreTokens()) {
       String token = st.nextToken().trim();
@@ -43,7 +51,7 @@ public class InvertedIndexBuilder {
       // for dict_skill_fullNames
       ArrayList<String> fullNames = this.dict_skill_fullNames.get(token);
       if (fullNames == null)
-        fullNames = new ArrayList<String>();
+        fullNames = new ArrayList<>();
 
       fullNames.add(fullName);
       this.dict_skill_fullNames.put(token, fullNames);
@@ -53,12 +61,16 @@ public class InvertedIndexBuilder {
     return;
   }
 
+  /**
+   * calculate tdidf value of all included in raw list
+   * @return calculated tdidf list
+   */
   public ArrayList<Pair<String, Double>> calculate() {
-    MessageHandler.successMessage("Start calculating...");
+    MessageHandler.infoMessage("Start calculating...");
 
     int doc_total; // total skill count under one entry
-    int docs_total = this.calculateDocsTotal(); // total skill count under all entries
-    int term_occur_in_docs; // total skill appearence under all entries
+    int docs_total = this.calculateDocsTotal(); // total token count under all entries
+    int term_occur_in_docs; // total token appearence under all entries
 
     for (Entry<String, ArrayList<String>> entry : this.dict_skill_fullNames.entrySet()) {
       String skill = entry.getKey();
@@ -78,33 +90,49 @@ public class InvertedIndexBuilder {
 
       tfidf = tfidf / totalTermCount;
 
-      Pair<String, Double> temp = new Pair<String, Double>(skill, tfidf);
+      Pair<String, Double> temp = new Pair<>(skill, tfidf);
       this.tfidfList.add(temp);
     }
 
     return this.tfidfList;
   }
 
+  /**
+   * print tfidf list
+   */
   public void print_tfidfList() {
     for (Pair<String, Double> p : this.tfidfList) {
       MessageHandler.debugMessage("term: " + p.getKey() + " tfidf: " + p.getValue());
     }
+    MessageHandler.debugMessage("print_tfidfList");
   }
 
+  /**
+   * print fullname and skill list
+   */
   public void print_fullName_skill() {
     for (Entry<String, ArrayList<String>> entry : this.dict_fullName_skills.entrySet()) {
       MessageHandler.debugMessage("fullName: " + entry.getKey());
       MessageHandler.debugMessage("skills: " + entry.getValue());
     }
+    MessageHandler.debugMessage("print_fullName_skill");
   }
 
+  /**
+   * print skill and full name list
+   */
   public void print_skill_fullName() {
     for (Entry<String, ArrayList<String>> entry : this.dict_skill_fullNames.entrySet()) {
       MessageHandler.debugMessage("skill: " + entry.getKey());
       MessageHandler.debugMessage("names: " + entry.getValue());
     }
+    MessageHandler.debugMessage("print_skill_fullName");
   }
 
+  /**
+   * calculate total doc count
+   * @return doc total count
+   */
   private int calculateDocsTotal() {
     int docs_total = 0;
 

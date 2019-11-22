@@ -30,8 +30,8 @@ public class XlsmHandler {
   private ArrayList<Pair<String, String>> extracted; // Pair<fullname:skills>
 
   public XlsmHandler() {
-    this.wbs = new ArrayList<XSSFWorkbook>();
-    this.extracted = new ArrayList<Pair<String, String>>();
+    this.wbs = new ArrayList<>();
+    this.extracted = new ArrayList<>();
     return;
   }
 
@@ -82,7 +82,7 @@ public class XlsmHandler {
   }
 
   private Map<String, Integer> getColIxMap(XSSFWorkbook wb) {
-    Map<String, Integer> map = new HashMap<String, Integer>();
+    Map<String, Integer> map = new HashMap<>();
     XSSFSheet sheet = wb.getSheetAt(0);
     XSSFRow row = sheet.getRow(0);
 
@@ -107,7 +107,7 @@ public class XlsmHandler {
     XSSFCell fullNameCell;
     XSSFCell skillsCell;
 
-    ArrayList<Pair<String, String>> result = new ArrayList<Pair<String, String>>();
+    ArrayList<Pair<String, String>> result = new ArrayList<>();
 
     Iterator rows = sheet.rowIterator();
 
@@ -121,7 +121,7 @@ public class XlsmHandler {
         if (fullNameCell.getCellType() == CellType.STRING) {
           String fullName = fullNameCell.getStringCellValue();
           String skills = skillsCell.getStringCellValue();
-          Pair p = new Pair<String, String>(fullName, skills);
+          Pair<String, String> p = new Pair<>(fullName, skills);
           result.add(p);
         }
       }
@@ -130,7 +130,7 @@ public class XlsmHandler {
   }
 
   private ArrayList<Path> getPaths(String folderDir) {
-    ArrayList<Path> paths = new ArrayList<Path>();
+    ArrayList<Path> paths = new ArrayList<>();
 
     try {
       Files.newDirectoryStream(Paths.get(folderDir), path -> path.toString().endsWith(".xlsm"))
