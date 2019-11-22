@@ -5,6 +5,7 @@ import KeywordSearchEngine.util.TFIDFCalculator;
 
 import java.util.Map.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import javafx.util.Pair;
@@ -21,11 +22,13 @@ public class InvertedIndexBuilder {
   TFIDFCalculator calculator;
 
   public InvertedIndexBuilder() {
-    dict_fullName_skills = new HashMap<String, ArrayList<String>>();
-    dict_skill_fullNames = new HashMap<String, ArrayList<String>>();
-    tfidfList = new ArrayList<Pair<String, Double>>();
+    // init all dicts
+    dict_fullName_skills = new HashMap<>();
+    dict_skill_fullNames = new HashMap<>();
+    tfidfList = new ArrayList<>();
 
     this.calculator = new TFIDFCalculator();
+
     return;
   }
 
@@ -37,7 +40,7 @@ public class InvertedIndexBuilder {
   public void add_token(String fullName, String document) {
     StringTokenizer st = new StringTokenizer(document, ",");
 
-    ArrayList<String> skills = new ArrayList<String>();
+    ArrayList<String> skills = new ArrayList<>();
 
     while (st.hasMoreTokens()) {
       String token = st.nextToken().trim();
@@ -48,7 +51,7 @@ public class InvertedIndexBuilder {
       // for dict_skill_fullNames
       ArrayList<String> fullNames = this.dict_skill_fullNames.get(token);
       if (fullNames == null)
-        fullNames = new ArrayList<String>();
+        fullNames = new ArrayList<>();
 
       fullNames.add(fullName);
       this.dict_skill_fullNames.put(token, fullNames);
@@ -87,7 +90,7 @@ public class InvertedIndexBuilder {
 
       tfidf = tfidf / totalTermCount;
 
-      Pair<String, Double> temp = new Pair<String, Double>(skill, tfidf);
+      Pair<String, Double> temp = new Pair<>(skill, tfidf);
       this.tfidfList.add(temp);
     }
 

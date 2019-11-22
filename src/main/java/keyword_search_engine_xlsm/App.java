@@ -27,7 +27,7 @@ public class App {
     }
     db.end();
 
-    List pair_list = new ArrayList<Pair<String, String>>();
+    List<Pair<String, String>> pair_list = new ArrayList<>();
     XlsmHandler handler = new XlsmHandler();
     InvertedIndexBuilder indexBuilder = new InvertedIndexBuilder();
     String folderDir = "src/main/resources/";
