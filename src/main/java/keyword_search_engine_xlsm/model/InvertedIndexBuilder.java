@@ -14,8 +14,8 @@ import javafx.util.Pair;
  */
 public class InvertedIndexBuilder {
 
-  HashMap<String, ArrayList<String>> dict_fullName_skills; // dict[fullName] = [skill]
-  HashMap<String, ArrayList<String>> dict_skill_fullNames; // dict[skill] = [fullName]
+  HashMap<String, ArrayList<String>> dict_fullName_skills; // dict[fullName] = [skill] - raw list
+  HashMap<String, ArrayList<String>> dict_skill_fullNames; // dict[skill] = [fullName] - raw list
   ArrayList<Pair<String, Double>> tfidfList;
 
   TFIDFCalculator calculator;
@@ -29,8 +29,13 @@ public class InvertedIndexBuilder {
     return;
   }
 
-  public void add_token(String fullName, String allSkills) {
-    StringTokenizer st = new StringTokenizer(allSkills, ",");
+  /**
+   * add tokens into a pre-calculated list
+   * @param fullName  full name of the target
+   * @param document document
+   */
+  public void add_token(String fullName, String document) {
+    StringTokenizer st = new StringTokenizer(document, ",");
 
     ArrayList<String> skills = new ArrayList<String>();
 
@@ -53,12 +58,16 @@ public class InvertedIndexBuilder {
     return;
   }
 
+  /**
+   * calculate tdidf value of all included in raw list
+   * @return calculated tdidf list
+   */
   public ArrayList<Pair<String, Double>> calculate() {
-    MessageHandler.successMessage("Start calculating...");
+    MessageHandler.infoMessage("Start calculating...");
 
     int doc_total; // total skill count under one entry
-    int docs_total = this.calculateDocsTotal(); // total skill count under all entries
-    int term_occur_in_docs; // total skill appearence under all entries
+    int docs_total = this.calculateDocsTotal(); // total token count under all entries
+    int term_occur_in_docs; // total token appearence under all entries
 
     for (Entry<String, ArrayList<String>> entry : this.dict_skill_fullNames.entrySet()) {
       String skill = entry.getKey();
@@ -85,6 +94,9 @@ public class InvertedIndexBuilder {
     return this.tfidfList;
   }
 
+  /**
+   * print tfidf list
+   */
   public void print_tfidfList() {
     for (Pair<String, Double> p : this.tfidfList) {
       MessageHandler.debugMessage("term: " + p.getKey() + " tfidf: " + p.getValue());
@@ -92,6 +104,9 @@ public class InvertedIndexBuilder {
     MessageHandler.debugMessage("print_tfidfList");
   }
 
+  /**
+   * print fullname and skill list
+   */
   public void print_fullName_skill() {
     for (Entry<String, ArrayList<String>> entry : this.dict_fullName_skills.entrySet()) {
       MessageHandler.debugMessage("fullName: " + entry.getKey());
@@ -100,6 +115,9 @@ public class InvertedIndexBuilder {
     MessageHandler.debugMessage("print_fullName_skill");
   }
 
+  /**
+   * print skill and full name list
+   */
   public void print_skill_fullName() {
     for (Entry<String, ArrayList<String>> entry : this.dict_skill_fullNames.entrySet()) {
       MessageHandler.debugMessage("skill: " + entry.getKey());
@@ -108,6 +126,10 @@ public class InvertedIndexBuilder {
     MessageHandler.debugMessage("print_skill_fullName");
   }
 
+  /**
+   * calculate total doc count
+   * @return doc total count
+   */
   private int calculateDocsTotal() {
     int docs_total = 0;
 
