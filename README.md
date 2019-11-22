@@ -38,26 +38,5 @@ This is a simple keyword matching system built for [Seedsprint](https://www.seed
 
 **bigger the tfidf is, means the skill is rarer**. I will add a ranking program later to rank all the term/skills.
 
-## Known Issues
-1. temporary file such as ~$worddata.xlsm will also be considered as valid input file.
-
-## Update:
-### August 17th, 2019
-- House cleaning
-
-### August 18th, 2019
-- fixed a bug that XLSXHandler cannot get the right fullName and skill columns
-
-### August 14th, 2019
-- now the program will find all .xslm files under resources folder.
-- now you will see more prompts and know what's going on in the program. this also helps debugging.
-
-### August 9th, 2019
-- now the tfidf calculation should be working
-- Known Issue: HashMap dict_skill_fullNames is not correctly generated. the fullNames list is never updated when key exists. (Solved)
-
-### August 7th, 2019
-- every parts are ready except tfidf calculation 
-- cuz this is the first version, all parts are hard coded. 
-- database is not used, ignore database error for now.
-- Thank you for your patience:)
+## Update & Known Issues
+- this item has been moved to [here](https://github.com/zhongjis/keyword_search_engine_xlsm/wiki/Update-Logs-and-Known-Issues)
