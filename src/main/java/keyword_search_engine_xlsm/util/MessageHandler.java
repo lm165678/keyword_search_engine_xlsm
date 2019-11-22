@@ -1,3 +1,4 @@
+
 package KeywordSearchEngine.util;
 
 /**
@@ -5,46 +6,41 @@ package KeywordSearchEngine.util;
  */
 public class MessageHandler {
 
-  private static String successText = "[Success]";
-  private static String errorText = "[ERROR]";
-  private static String infoText = "[INFO]";
-  private static String debugText = "[DEBUG]";
-
   public MessageHandler() {}
 
-  public static String generateSuccessMessage(String msg) {
-    return successText + " " + msg;
+  public static String getSuccessMessage(String msg) {
+    return "[Success]" + " " + msg;
   }
 
-  public static String generateErrorMessage(String msg) {
-    return errorText + " " + msg;
+  public static String getErrorMessage(String msg) {
+    return "[ERROR]" + " " + msg;
   }
 
-  public static String generateInfoMessage(String msg) {
-    return infoText + " " + msg;
+  public static String getInfoMessage(String msg) {
+    return "[INFO]" + " " + msg;
   }
 
-  public static String generateDebugMessage(String msg) {
-    return debugText + " " + msg;
+  public static String getDebugMessage(String msg) {
+    return "[DEBUG]" + " " + msg;
   }
 
   public static void successMessage(String msg) {
-    String outputMsg = generateSuccessMessage(msg);
-    System.out.println(outputMsg);
+    String outMsg = getSuccessMessage(msg);
+    System.out.println(outMsg);
   }
 
   public static void errorMessage(String msg) {
-    String outputMsg = generateErrorMessage(msg);
-    System.out.println(outputMsg);
+    String outMsg = getErrorMessage(msg);
+    System.out.println(outMsg);
   }
 
   public static void infoMessage(String msg) {
-    String outputMsg = generateInfoMessage(msg);
-    System.out.println(outputMsg);
+    String outMsg = getInfoMessage(msg);
+    System.out.println(outMsg);
   }
 
   public static void debugMessage(String msg) {
-    String outputMsg = generateDebugMessage(msg);
-    System.out.println(outputMsg);
+    String outMsg = getDebugMessage(msg);
+    System.out.println(outMsg);
   }
 }
