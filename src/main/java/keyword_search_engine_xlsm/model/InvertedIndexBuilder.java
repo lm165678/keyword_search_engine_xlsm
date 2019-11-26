@@ -2,7 +2,6 @@ package KeywordSearchEngine.model;
 
 import KeywordSearchEngine.util.MessageHandler;
 import KeywordSearchEngine.util.TFIDFCalculator;
-
 import java.util.Map.*;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +33,8 @@ public class InvertedIndexBuilder {
 
   /**
    * add tokens into a pre-calculated list
-   * @param fullName  full name of the target
+   * 
+   * @param fullName full name of the target
    * @param document document
    */
   public void add_token(String fullName, String document) {
@@ -63,6 +63,7 @@ public class InvertedIndexBuilder {
 
   /**
    * calculate tdidf value of all included in raw list
+   * 
    * @return calculated tdidf list
    */
   public ArrayList<Pair<String, Double>> calculate() {
@@ -131,6 +132,7 @@ public class InvertedIndexBuilder {
 
   /**
    * calculate total doc count
+   * 
    * @return doc total count
    */
   private int calculateDocsTotal() {

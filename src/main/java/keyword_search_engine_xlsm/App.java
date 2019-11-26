@@ -4,7 +4,6 @@ import KeywordSearchEngine.util.MessageHandler;
 import KeywordSearchEngine.model.DBHandler;
 import KeywordSearchEngine.model.XlsmHandler;
 import KeywordSearchEngine.model.InvertedIndexBuilder;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
@@ -19,11 +18,11 @@ public class App {
 
     String dbName = "workdata_seedsprint";
     String colName = "fullname_skills";
-    DBHandler db = new DBHandler(dbName, colName);
-    boolean dbInitCheck = db.init();
+    DBHandler db = new DBHandler();
+    boolean dbInitCheck = db.init(dbName, colName);
     if (!dbInitCheck) {
-        MessageHandler.errorMessage("DB connection failed. Quitting...");
-        return;
+      MessageHandler.errorMessage("DB connection failed. Quitting...");
+      return;
     }
     db.end();
 

@@ -1,7 +1,6 @@
 package KeywordSearchEngine.model;
 
 import KeywordSearchEngine.util.MessageHandler;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;

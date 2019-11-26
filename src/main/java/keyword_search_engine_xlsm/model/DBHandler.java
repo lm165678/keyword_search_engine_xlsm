@@ -27,10 +27,7 @@ public class DBHandler {
    * @param colName collection name
    * @return null
    */
-  public DBHandler(String dbName, String colName) {
-    this.dbName = dbName;
-    this.colName = colName;
-
+  public DBHandler() {
     return;
   }
 
@@ -39,7 +36,10 @@ public class DBHandler {
    * 
    * @return true if connection is built
    */
-  public boolean init() {
+  public boolean init(String dbName, String colName) {
+    this.dbName = dbName;
+    this.colName = colName;
+
     try {
       this.mongoClient = new MongoClient("localhost", 27017);
       this.database = this.connectDatabase(this.dbName);
