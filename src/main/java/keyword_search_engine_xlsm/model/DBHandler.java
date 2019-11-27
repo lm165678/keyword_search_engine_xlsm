@@ -5,6 +5,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoIterable;
+import org.bson.Document;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
@@ -87,7 +88,7 @@ public class DBHandler {
    */
   private MongoCollection connectCollection(String name) throws CollectionNotFoundException {
     if (!this.isValidCol(this.colName)) {
-      throw new CollectionNotFoundException("collection" + name + " does not exist, please check");
+      throw new CollectionNotFoundException("collection " + name + " does not exist, please check");
     }
     return database.getCollection(this.colName);
   }
@@ -112,5 +113,26 @@ public class DBHandler {
   private boolean isValidCol(String name) {
     List<String> colNames = this.database.listCollectionNames().into(new ArrayList<String>());
     return (colNames.contains(this.colName));
+  }
+
+  /**
+   * create a new document under current opened collection
+   * TODO: error prevention for later
+   * @param  name document name
+   * @return      document object
+   */
+  public Document newDocument(String name) {
+    Document doc = new Document("name", name);
+    return doc;
+  }
+
+  /**
+   * insert a document to current collection
+   * @param  doc document object
+   * @return     collection object
+   */
+  public MongoCollection insertDocument(Document doc) {
+    this.collection.insertOne(doc);
+    return this.collection;
   }
 }

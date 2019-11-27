@@ -2,20 +2,23 @@ package KeywordSearchEngine.model;
 
 import KeywordSearchEngine.util.MessageHandler;
 import KeywordSearchEngine.util.TFIDFCalculator;
+import KeywordSearchEngine.model.DBHandler;
+import java.util.Map;
 import java.util.Map.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import javafx.util.Pair;
+import org.bson.Document;
 
 /**
  * @author Zhongjie Shen
  */
 public class InvertedIndexBuilder {
 
-  HashMap<String, ArrayList<String>> dict_fullName_skills; // dict[fullName] = [skill] - raw list
-  HashMap<String, ArrayList<String>> dict_skill_fullNames; // dict[skill] = [fullName] - raw list
+  Map<String, ArrayList<String>> dict_fullName_skills; // dict[fullName] = [skill] - raw list
+  Map<String, ArrayList<String>> dict_skill_fullNames; // dict[skill] = [fullName] - raw list
   ArrayList<Pair<String, Double>> tfidfList;
 
   TFIDFCalculator calculator;
@@ -58,6 +61,41 @@ public class InvertedIndexBuilder {
     }
     // for dict_fullName_skills
     dict_fullName_skills.put(fullName, skills);
+    return;
+  }
+
+    /**
+   * add tokens into a pre-calculated list
+   * 
+   * @param fullName full name of the target
+   * @param document document
+   */
+  public void add_token(String fullName, String document, DBHandler handler) {
+    StringTokenizer st = new StringTokenizer(document, ",");
+
+    ArrayList<String> skills = new ArrayList<>();
+
+    while (st.hasMoreTokens()) {
+      String token = st.nextToken().trim();
+
+      // for dict_fullName_skills
+      skills.add(token);
+
+      // for dict_skill_fullNames
+      ArrayList<String> fullNames = this.dict_skill_fullNames.get(token);
+      if (fullNames == null)
+        fullNames = new ArrayList<>();
+
+      fullNames.add(fullName);
+      this.dict_skill_fullNames.put(token, fullNames);
+    }
+
+    // for dict_fullName_skills - no database
+    dict_fullName_skills.put(fullName, skills);
+
+    // for doc_fullName_skills - with database
+    Document doc_fullName_skills = handler.newDocument(fullName).append("skills", skills);
+    handler.insertDocument(doc_fullName_skills);
     return;
   }
 
