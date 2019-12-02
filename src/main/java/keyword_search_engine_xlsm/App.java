@@ -4,6 +4,7 @@ import KeywordSearchEngine.util.MessageHandler;
 import KeywordSearchEngine.model.DBHandler;
 import KeywordSearchEngine.model.XlsmHandler;
 import KeywordSearchEngine.model.InvertedIndexBuilder;
+import com.mongodb.client.MongoDatabase;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
@@ -17,14 +18,12 @@ public class App {
     MessageHandler.successMessage("Program starting...");
 
     String dbName = "workdata_seedsprint";
-    String colName = "fullname_skills";
-    DBHandler db = new DBHandler();
-    boolean dbInitCheck = db.init(dbName, colName);
-    if (!dbInitCheck) {
+    DBHandler dbHandler = new DBHandler();
+    MongoDatabase db = dbHandler.init(dbName);
+    if (db == null) {
       MessageHandler.errorMessage("DB connection failed. Quitting...");
       return;
     }
-    db.end();
 
     List<Pair<String, String>> pair_list = new ArrayList<>();
     XlsmHandler handler = new XlsmHandler();
@@ -35,16 +34,19 @@ public class App {
     pair_list = handler.extractWbs();
 
     Iterator<Pair<String, String>> pairsIterator = pair_list.iterator();
+    Pair<String, String> p = pairsIterator.next(); // ignore title line
 
     while (pairsIterator.hasNext()) {
-      Pair<String, String> p = pairsIterator.next();
-      indexBuilder.add_token(p.getKey(), p.getValue());
+      p = pairsIterator.next();
+      indexBuilder.add_token(p.getKey(), p.getValue(), dbHandler);
     }
 
     // indexBuilder.print_fullName_skill();
     // indexBuilder.print_skill_fullName();
-    indexBuilder.calculate();
+    // indexBuilder.calculate();
     // indexBuilder.print_tfidfList();
+    
+    dbHandler.end();
 
     MessageHandler.successMessage("Program ending...");
   }

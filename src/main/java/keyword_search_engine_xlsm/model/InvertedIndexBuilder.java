@@ -69,6 +69,7 @@ public class InvertedIndexBuilder {
    * 
    * @param fullName full name of the target
    * @param document document
+   * @param handler DBHandler
    */
   public void add_token(String fullName, String document, DBHandler handler) {
     StringTokenizer st = new StringTokenizer(document, ",");
@@ -95,7 +96,7 @@ public class InvertedIndexBuilder {
 
     // for doc_fullName_skills - with database
     Document doc_fullName_skills = handler.newDocument(fullName).append("skills", skills);
-    handler.insertDocument(doc_fullName_skills);
+    handler.insertDocument(doc_fullName_skills, "fullname_skills");
     return;
   }
 

@@ -19,7 +19,6 @@ public class DBHandler {
   private String colName;
   private MongoClient mongoClient;
   private MongoDatabase database;
-  private MongoCollection collection;
 
   /**
    * constructor. will not init db connection until run init()
@@ -31,32 +30,28 @@ public class DBHandler {
   }
 
   /**
-   * init data base with dbName and colName
-   * 
-   * @return true if connection is built
+   * init database with dbname
+   * @param  dbName database name
+   * @return        true if db initialied correctlyt
    */
-  public boolean init(String dbName, String colName) {
+  public MongoDatabase init(String dbName) {
     this.dbName = dbName;
-    this.colName = colName;
+    // this.colName = colName;
 
     try {
       this.mongoClient = new MongoClient("localhost", 27017);
       this.database = this.connectDatabase(this.dbName);
-      this.collection = this.connectCollection(this.colName);
-    } catch (CollectionNotFoundException e) {
-      MessageHandler.errorMessage(e.getMessage());
-      return false;
     } catch (DatabaseNotFoundException e) {
       MessageHandler.errorMessage(e.getMessage());
-      return false;
+      return null;
     } catch (Exception e) {
       MessageHandler.errorMessage(e.getMessage());
-      return false;
+      return null;
     }
 
     MessageHandler.successMessage("database " + database.getName()
-        + " connected. collection chosen: " + collection.getNamespace());
-    return true;
+        + " connected.");
+    return this.database;
   }
 
   /**
@@ -64,7 +59,7 @@ public class DBHandler {
    */
   public void end() {
     this.mongoClient.close();
-    MessageHandler.successMessage("database closed");
+    MessageHandler.successMessage("connection closed");
   }
 
   /**
@@ -87,10 +82,10 @@ public class DBHandler {
    * @return MongoCollection
    */
   private MongoCollection connectCollection(String name) throws CollectionNotFoundException {
-    if (!this.isValidCol(this.colName)) {
+    if (!this.isValidCol(name)) {
       throw new CollectionNotFoundException("collection " + name + " does not exist, please check");
     }
-    return database.getCollection(this.colName);
+    return database.getCollection(name);
   }
 
   /**
@@ -112,7 +107,7 @@ public class DBHandler {
    */
   private boolean isValidCol(String name) {
     List<String> colNames = this.database.listCollectionNames().into(new ArrayList<String>());
-    return (colNames.contains(this.colName));
+    return (colNames.contains(name));
   }
 
   /**
@@ -131,8 +126,15 @@ public class DBHandler {
    * @param  doc document object
    * @return     collection object
    */
-  public MongoCollection insertDocument(Document doc) {
-    this.collection.insertOne(doc);
-    return this.collection;
+  public MongoCollection insertDocument(Document doc, String colName) {
+    MongoCollection col;
+    try {
+      col = connectCollection(colName);
+    } catch (CollectionNotFoundException e) {
+      MessageHandler.errorMessage(e.getMessage());
+      return null;
+    }
+    col.insertOne(doc);
+    return col;
   }
 }
