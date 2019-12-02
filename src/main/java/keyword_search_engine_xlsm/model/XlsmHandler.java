@@ -137,9 +137,9 @@ public class XlsmHandler {
             if (Files.isRegularFile(filePath)) {
               try {
                 paths.add(filePath);
-                MessageHandler.infoMessage("[INFO] File detected: " + filePath.toString());
+                MessageHandler.infoMessage("File detected: " + filePath.toString());
               } catch (Exception e) {
-                MessageHandler.errorMessage("[FAIL] Catch Exception: " + e.getMessage());
+                MessageHandler.errorMessage("Catch Exception: " + e.getMessage());
               }
             }
           });
