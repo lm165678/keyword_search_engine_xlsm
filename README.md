@@ -9,10 +9,12 @@ This is a simple keyword matching system built for [Seedsprint](https://www.seed
 > cd keyword_search_engine_xlsm <br>
 > gradle run <br>
 
-## Set Up Details:
-### 1: MongoDB (Currently not used)
+## Environment Set Up Details:
+### 1: MongoDB
 - should have a db called **workdata_seedsprint** 
 - should have a collection called **fullname_skills** 
+- should have a collection called **skill_fullnames**
+- should have a collection called **skill_tdidf**  
 
 ### 2: Gradle
 - this program is built with Gradle. if you need to install the tool. you can use homebrew:
@@ -25,7 +27,8 @@ This is a simple keyword matching system built for [Seedsprint](https://www.seed
 - due to the format limitation of .xlsx file, please convert them to .xlsm. About how to do this. please check this [link](https://support.office.com/en-us/article/save-a-workbook-in-another-file-format-6a16c862-4a36-48f9-a300-c2ca0065286e) 
 
 ## Example Output
-- all skills will be printed in the console like
+- currently console output is disabled. you can use the program to see output in mongodb. [Download MongoDB Compass](https://www.mongodb.com/products/compass)
+- if you want to see console output in real-time, you can uncomment **line 47** all skills will be printed in the console like below
 
 > [INFO] term: Big Six Non-O157 STEC Panels: tfidf 6.054439346269371 <br>
 > [INFO] term: Six Sigma: tfidf 6.054439346269371 <br>
