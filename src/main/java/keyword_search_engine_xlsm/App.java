@@ -43,7 +43,7 @@ public class App {
 
     // indexBuilder.print_fullName_skill();
     // indexBuilder.print_skill_fullName();
-    // indexBuilder.calculate();
+    indexBuilder.calculate(dbHandler);
     // indexBuilder.print_tfidfList();
 
     dbHandler.end();

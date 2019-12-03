@@ -147,6 +147,51 @@ public class InvertedIndexBuilder {
     return this.tfidfList;
   }
 
+    /**
+   * calculate tdidf value of all included in raw list and input result to mongodb
+   *
+   * @return [description]
+   */
+  public ArrayList<Pair<String, Double>> calculate(DBHandler handler) {
+    MessageHandler.infoMessage("Start calculating...");
+
+    int doc_total; // total skill count under one entry
+    int docs_total = this.calculateDocsTotal(); // total token count under all entries
+    int term_occur_in_docs; // total token appearence under all entries
+
+    for (Entry<String, ArrayList<String>> entry : this.dict_skill_fullNames.entrySet()) {
+      String skill = entry.getKey();
+      ArrayList<String> names = entry.getValue();
+
+      term_occur_in_docs = names.size();
+
+      double tfidf = 0;
+      double totalTermCount = names.size();
+
+      for (String name : names) {
+        ArrayList<String> skills = this.dict_fullName_skills.get(name);
+        doc_total = skills.size();
+        double temp = calculator.tfIdf(doc_total, docs_total, term_occur_in_docs);
+        tfidf = tfidf + temp;
+      }
+
+      tfidf = tfidf / totalTermCount;
+
+      Pair<String, Double> temp = new Pair<>(skill, tfidf);
+
+      // for db insertion
+      Document doc_skill_tdidf = handler.newDocument(temp.getKey()).append("tdidf", temp.getValue());
+      handler.insertDocument(doc_skill_tdidf, "skill_tdidf");
+
+      // for in-built
+      this.tfidfList.add(temp);
+    }
+    
+    MessageHandler.infoMessage("db insertion finished: skill_tdidf");
+
+    return this.tfidfList;
+  }
+
   /**
    * print tfidf list
    */
