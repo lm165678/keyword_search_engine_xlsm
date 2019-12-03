@@ -45,7 +45,7 @@ public class App {
     // indexBuilder.print_skill_fullName();
     // indexBuilder.calculate();
     // indexBuilder.print_tfidfList();
-    
+
     dbHandler.end();
 
     MessageHandler.successMessage("Program ending...");

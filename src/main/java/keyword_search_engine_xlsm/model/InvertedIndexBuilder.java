@@ -64,7 +64,7 @@ public class InvertedIndexBuilder {
     return;
   }
 
-    /**
+  /**
    * add tokens into a pre-calculated list
    * 
    * @param fullName full name of the target
@@ -89,6 +89,9 @@ public class InvertedIndexBuilder {
 
       fullNames.add(fullName);
       this.dict_skill_fullNames.put(token, fullNames);
+
+      // Document doc_skill_fullNames = handler.newDocument(token).append("skills", fullNames);
+      // handler.saveDocument(doc_skill_fullNames, "fullname_skills");
     }
 
     // for dict_fullName_skills - no database
@@ -97,6 +100,13 @@ public class InvertedIndexBuilder {
     // for doc_fullName_skills - with database
     Document doc_fullName_skills = handler.newDocument(fullName).append("skills", skills);
     handler.insertDocument(doc_fullName_skills, "fullname_skills");
+
+    // for doc_skill_fullNames - with database
+    // TODO: need to improve insertion efficiency
+    for (Entry<String, ArrayList<String>> e : this.dict_skill_fullNames.entrySet()) {
+      Document doc_skill_fullNames = handler.newDocument(e.getKey()).append("names", e.getValue());
+      handler.insertDocument(doc_skill_fullNames, "skill_fullnames");
+    }
     return;
   }
 

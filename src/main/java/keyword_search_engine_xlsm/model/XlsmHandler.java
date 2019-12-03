@@ -128,6 +128,12 @@ public class XlsmHandler {
     return result;
   }
 
+  /**
+   * get all input file paths
+   * 
+   * @param folderDir target folder directory
+   * @return path list
+   */
   private ArrayList<Path> getPaths(String folderDir) {
     ArrayList<Path> paths = new ArrayList<>();
 

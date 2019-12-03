@@ -5,11 +5,10 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoIterable;
+import static com.mongodb.client.model.Filters.*;
 import org.bson.Document;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Set;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * @author Zhongjie Shen
@@ -31,8 +30,9 @@ public class DBHandler {
 
   /**
    * init database with dbname
-   * @param  dbName database name
-   * @return        true if db initialied correctlyt
+   * 
+   * @param dbName database name
+   * @return true if db initialied correctlyt
    */
   public MongoDatabase init(String dbName) {
     this.dbName = dbName;
@@ -49,8 +49,7 @@ public class DBHandler {
       return null;
     }
 
-    MessageHandler.successMessage("database " + database.getName()
-        + " connected.");
+    MessageHandler.successMessage("database " + database.getName() + " connected.");
     return this.database;
   }
 
@@ -70,7 +69,8 @@ public class DBHandler {
    */
   private MongoDatabase connectDatabase(String name) throws DatabaseNotFoundException {
     if (!this.isValidDb(name)) {
-      throw new DatabaseNotFoundException("database " + this.dbName + " does not exist, please check");
+      throw new DatabaseNotFoundException(
+          "database " + this.dbName + " does not exist, please check");
     }
     return mongoClient.getDatabase(this.dbName);
   }
@@ -111,10 +111,10 @@ public class DBHandler {
   }
 
   /**
-   * create a new document under current opened collection
-   * TODO: error prevention for later
-   * @param  name document name
-   * @return      document object
+   * create a new document under current opened collection TODO: error prevention for later
+   * 
+   * @param name document name
+   * @return document object
    */
   public Document newDocument(String name) {
     Document doc = new Document("name", name);
@@ -122,19 +122,44 @@ public class DBHandler {
   }
 
   /**
-   * insert a document to current collection
-   * @param  doc document object
-   * @return     collection object
+   * insert a document to selected collection, this will add the document without minding
+   * duplications
+   *
+   * @param doc Document
+   * @param colName target collection name
+   * @return target collection object
    */
   public MongoCollection insertDocument(Document doc, String colName) {
-    MongoCollection col;
+    MongoCollection collection;
     try {
-      col = connectCollection(colName);
+      collection = connectCollection(colName);
     } catch (CollectionNotFoundException e) {
       MessageHandler.errorMessage(e.getMessage());
       return null;
     }
-    col.insertOne(doc);
-    return col;
+    collection.insertOne(doc);
+    return collection;
+  }
+
+  /**
+   * update a document to selected collection, if document is not found, it will create a new one.
+   * FIXME: this implementation assumes there's no duplications of value "name"
+   *
+   * @param  doc     Document
+   * @param  colName target collection name
+   * @return         target collection object
+   */
+  public MongoCollection updateDocument(Document doc, String colName) {
+    MongoCollection collection;
+    try {
+      collection = connectCollection(colName);
+    } catch (CollectionNotFoundException e) {
+      MessageHandler.errorMessage(e.getMessage());
+      return null;
+    }
+    MongoIterable found = collection.find(eq("name", doc.get("name")));
+    while 
+
+    return collection;
   }
 }
