@@ -90,8 +90,8 @@ public class InvertedIndexBuilder {
       fullNames.add(fullName);
       this.dict_skill_fullNames.put(token, fullNames);
 
-      // Document doc_skill_fullNames = handler.newDocument(token).append("skills", fullNames);
-      // handler.saveDocument(doc_skill_fullNames, "fullname_skills");
+      Document doc_skill_fullNames = handler.newDocument(token).append("skills", fullNames);
+      handler.updateDocument(doc_skill_fullNames, "skill_fullnames");
     }
 
     // for dict_fullName_skills - no database
@@ -99,14 +99,8 @@ public class InvertedIndexBuilder {
 
     // for doc_fullName_skills - with database
     Document doc_fullName_skills = handler.newDocument(fullName).append("skills", skills);
-    handler.insertDocument(doc_fullName_skills, "fullname_skills");
+    handler.updateDocument(doc_fullName_skills, "fullname_skills");
 
-    // for doc_skill_fullNames - with database
-    // TODO: need to improve insertion efficiency
-    for (Entry<String, ArrayList<String>> e : this.dict_skill_fullNames.entrySet()) {
-      Document doc_skill_fullNames = handler.newDocument(e.getKey()).append("names", e.getValue());
-      handler.insertDocument(doc_skill_fullNames, "skill_fullnames");
-    }
     return;
   }
 
@@ -150,6 +144,8 @@ public class InvertedIndexBuilder {
     /**
    * calculate tdidf value of all included in raw list and input result to mongodb
    *
+   * TODO: need some more improvement. the goal is doing everything with db only. no built-in db structures
+   *
    * @return [description]
    */
   public ArrayList<Pair<String, Double>> calculate(DBHandler handler) {
@@ -181,7 +177,7 @@ public class InvertedIndexBuilder {
 
       // for db insertion
       Document doc_skill_tdidf = handler.newDocument(temp.getKey()).append("tdidf", temp.getValue());
-      handler.insertDocument(doc_skill_tdidf, "skill_tdidf");
+      handler.updateDocument(doc_skill_tdidf, "skill_tdidf");
 
       // for in-built
       this.tfidfList.add(temp);

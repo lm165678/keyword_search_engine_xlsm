@@ -125,10 +125,13 @@ public class DBHandler {
    * insert a document to selected collection, this will add the document without minding
    * duplications
    *
+   * @deprecated use {@link #updateDocument()} instead.  
+   *
    * @param doc Document
    * @param colName target collection name
    * @return target collection object
    */
+  @Deprecated
   public MongoCollection insertDocument(Document doc, String colName) {
     MongoCollection collection;
     try {
@@ -143,7 +146,8 @@ public class DBHandler {
 
   /**
    * update a document to selected collection, if document is not found, it will create a new one.
-   * FIXME: this implementation assumes there's no duplications of value "name"
+   * IMPORTANT: this implementation assumes there's no duplications of value "name"
+   * TODO: fix this method. it does not work
    *
    * @param  doc     Document
    * @param  colName target collection name
@@ -157,8 +161,12 @@ public class DBHandler {
       MessageHandler.errorMessage(e.getMessage());
       return null;
     }
-    MongoIterable found = collection.find(eq("name", doc.get("name")));
-    while 
+
+    if (collection.find(eq("name", doc.get("name"))).first() == null) {
+      collection.insertOne(doc);
+    } else {
+      collection.replaceOne(eq("name", doc.get("name")), doc);
+    }
 
     return collection;
   }
