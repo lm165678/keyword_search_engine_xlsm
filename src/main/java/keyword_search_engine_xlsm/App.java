@@ -14,39 +14,48 @@ import javafx.util.Pair;
  * @author Zhongjie Shen
  */
 public class App {
-  public static void main(String[] args) {
-    MessageHandler.successMessage("Program starting...");
-
+  public static void runWithDB() {
     String dbName = "workdata_seedsprint";
+
+    // connect to database
     DBHandler dbHandler = new DBHandler();
     MongoDatabase db = dbHandler.init(dbName);
     if (db == null) {
-      MessageHandler.errorMessage("DB connection failed. Quitting...");
+      MessageHandler.errorMessage("Cannot connect to MongoDB instance. Quitting...");
       return;
     }
 
-    List<Pair<String, String>> pair_list = new ArrayList<>();
-    XlsmHandler handler = new XlsmHandler();
-    InvertedIndexBuilder indexBuilder = new InvertedIndexBuilder();
+    // extracting tokens
     String folderDir = "src/main/resources/";
-
+    XlsmHandler handler = new XlsmHandler();
+    
     handler.init(folderDir);
-    pair_list = handler.extractWbs();
+    List<Pair<String, String>> pair_list = handler.extractWbs();
+
+    // adding tokens to indexBuilder
+    InvertedIndexBuilder indexBuilder = new InvertedIndexBuilder();
 
     Iterator<Pair<String, String>> pairsIterator = pair_list.iterator();
-    Pair<String, String> p = pairsIterator.next(); // ignore title line
+    Pair<String, String> p = pairsIterator.next(); // ignore the first title line
 
     while (pairsIterator.hasNext()) {
       p = pairsIterator.next();
       indexBuilder.add_token(p.getKey(), p.getValue(), dbHandler);
     }
 
-    // indexBuilder.print_fullName_skill();
-    // indexBuilder.print_skill_fullName();
+    // caculating tdidfs
     indexBuilder.calculate(dbHandler);
-    // indexBuilder.print_tfidfList();
-
     dbHandler.end();
+  }
+
+  public static void runWithoutDB() {
+    return;
+  }
+
+  public static void main(String[] args) {
+    MessageHandler.successMessage("Program starting...");
+
+    runWithDB();
 
     MessageHandler.successMessage("Program ending...");
   }
