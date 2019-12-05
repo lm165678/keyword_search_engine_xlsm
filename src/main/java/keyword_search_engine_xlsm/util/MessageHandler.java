@@ -7,7 +7,8 @@ import java.util.Scanner;
  */
 public class MessageHandler {
 
-  public MessageHandler() {}
+  public MessageHandler() {
+  }
 
   public static String getSuccessMessage(String msg) {
     return "[Success] " + msg;

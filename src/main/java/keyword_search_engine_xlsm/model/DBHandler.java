@@ -1,19 +1,20 @@
 package KeywordSearchEngine.model;
 
+import static com.mongodb.client.model.Filters.eq;
+
 import KeywordSearchEngine.util.MessageHandler;
 import com.mongodb.MongoClient;
-import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoIterable;
-import static com.mongodb.client.model.Filters.*;
-import org.bson.Document;
-import java.util.List;
+import com.mongodb.client.MongoDatabase;
 import java.util.ArrayList;
+import java.util.List;
+import org.bson.Document;
 
 /**
  * @author Zhongjie Shen
  */
 public class DBHandler {
+
   private String dbName;
   private String colName;
   private MongoClient mongoClient;
@@ -21,7 +22,7 @@ public class DBHandler {
 
   /**
    * constructor. will not init db connection until run init()
-   * 
+   *
    * @return null
    */
   public DBHandler() {
@@ -30,7 +31,7 @@ public class DBHandler {
 
   /**
    * init database with dbname
-   * 
+   *
    * @param dbName database name
    * @return true if db initialied correctlyt
    */
@@ -63,7 +64,7 @@ public class DBHandler {
 
   /**
    * connect to Collection and return the MongoDatabase if db exists
-   * 
+   *
    * @param name database name
    * @return MongoDatabase
    */
@@ -77,7 +78,7 @@ public class DBHandler {
 
   /**
    * connect to Collection and return the MongoCollection if col exists
-   * 
+   *
    * @param name collection name
    * @return MongoCollection
    */
@@ -90,7 +91,7 @@ public class DBHandler {
 
   /**
    * check if db exists
-   * 
+   *
    * @param name db name
    * @return true if exist, vise versa
    */
@@ -101,7 +102,7 @@ public class DBHandler {
 
   /**
    * check if col exists
-   * 
+   *
    * @param name col name
    * @return true if exist, vise versa
    */
@@ -112,7 +113,7 @@ public class DBHandler {
 
   /**
    * create a new document under current opened collection TODO: error prevention for later
-   * 
+   *
    * @param name document name
    * @return document object
    */
@@ -125,11 +126,10 @@ public class DBHandler {
    * insert a document to selected collection, this will add the document without minding
    * duplications
    *
-   * @deprecated use {@link #updateDocument()} instead.  
-   *
-   * @param doc Document
+   * @param doc     Document
    * @param colName target collection name
    * @return target collection object
+   * @deprecated use {@link #updateDocument()} instead.
    */
   @Deprecated
   public MongoCollection insertDocument(Document doc, String colName) {
@@ -146,12 +146,12 @@ public class DBHandler {
 
   /**
    * update a document to selected collection, if document is not found, it will create a new one.
-   * IMPORTANT: this implementation assumes there's no duplications of value "name"
-   * TODO: fix this method. it does not work
+   * IMPORTANT: this implementation assumes there's no duplications of value "name" TODO: fix this
+   * method. it does not work
    *
-   * @param  doc     Document
-   * @param  colName target collection name
-   * @return         target collection object
+   * @param doc     Document
+   * @param colName target collection name
+   * @return target collection object
    */
   public MongoCollection updateDocument(Document doc, String colName) {
     MongoCollection collection;

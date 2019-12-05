@@ -2,23 +2,21 @@ package KeywordSearchEngine.model;
 
 import KeywordSearchEngine.util.MessageHandler;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.nio.file.Path;
-import java.util.Iterator;
-import java.util.List;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import javafx.util.Pair;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.poi.ss.usermodel.CellType;
 
 /**
  * @author Zhongjie Shen
@@ -36,7 +34,7 @@ public class XlsmHandler {
 
   /**
    * init XlsmHandler with a folderDir String
-   * 
+   *
    * @param folderDir src folder dir
    * @return true if folder is not empty
    */
@@ -45,8 +43,9 @@ public class XlsmHandler {
 
     ArrayList<Path> paths = this.getPaths(folderDir);
 
-    if (paths.size() == 0)
+    if (paths.size() == 0) {
       return false;
+    }
 
     try {
       for (Path path : paths) {
@@ -130,7 +129,7 @@ public class XlsmHandler {
 
   /**
    * get all input file paths
-   * 
+   *
    * @param folderDir target folder directory
    * @return path list
    */

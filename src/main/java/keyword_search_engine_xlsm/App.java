@@ -1,19 +1,19 @@
 package KeywordSearchEngine;
 
-import KeywordSearchEngine.util.MessageHandler;
 import KeywordSearchEngine.model.DBHandler;
-import KeywordSearchEngine.model.XlsmHandler;
 import KeywordSearchEngine.model.InvertedIndexBuilder;
+import KeywordSearchEngine.model.XlsmHandler;
+import KeywordSearchEngine.util.MessageHandler;
 import com.mongodb.client.MongoDatabase;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
 import javafx.util.Pair;
 
 /**
  * @author Zhongjie Shen
  */
 public class App {
+
   public static void runWithDB() {
     String dbName = "workdata_seedsprint";
 
@@ -28,7 +28,7 @@ public class App {
     // extracting tokens
     String folderDir = "src/main/resources/";
     XlsmHandler handler = new XlsmHandler();
-    
+
     handler.init(folderDir);
     List<Pair<String, String>> pair_list = handler.extractWbs();
 
@@ -52,7 +52,7 @@ public class App {
     // extracting tokens
     String folderDir = "src/main/resources/";
     XlsmHandler handler = new XlsmHandler();
-    
+
     handler.init(folderDir);
     List<Pair<String, String>> pair_list = handler.extractWbs();
 
@@ -77,15 +77,16 @@ public class App {
   }
 
   public static void showMenu() {
-    String input = MessageHandler.stringInputMessage("Do you want to use Mongodb for record? or the result will be printed directly in terminal [y/n]");
+    String input = MessageHandler.stringInputMessage(
+        "Do you want to use Mongodb for record? or the result will be printed directly in terminal [y/n]");
 
     if (input.equals("y")) {
-        runWithDB();
+      runWithDB();
     } else if (input.equals("n")) {
-        runWithoutDB();
+      runWithoutDB();
     } else {
-        MessageHandler.errorMessage("Wrong input, please try again");
-        showMenu();
+      MessageHandler.errorMessage("Wrong input, please try again");
+      showMenu();
     }
 
     return;

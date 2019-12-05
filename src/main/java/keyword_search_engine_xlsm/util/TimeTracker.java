@@ -1,15 +1,15 @@
 package KeywordSearchEngine.util;
 
-import KeywordSearchEngine.util.MessageHandler;
-import KeywordSearchEngine.util.TimeTrackerTaskNotFoundException;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 public class TimeTracker {
+
   private static Map<String, Long> record = new HashMap<>();
 
   // Constructor
-  public TimeTracker() {}
+  public TimeTracker() {
+  }
 
   /**
    * TODO: default method, start a new tracker
@@ -27,7 +27,7 @@ public class TimeTracker {
 
   /**
    * return recorded list of tracker times, may includ unfinished tracker info
-   * 
+   *
    * @return Map<String, Long>
    */
   public static Map<String, Long> get() {
@@ -36,7 +36,7 @@ public class TimeTracker {
 
   /**
    * start a new timer with name
-   * 
+   *
    * @param taskName task name
    */
   public static boolean start(String taskName) {
@@ -51,7 +51,7 @@ public class TimeTracker {
 
   /**
    * stop the time which has a specific name
-   * 
+   *
    * @param taskName task name
    */
   public static boolean stop(String taskName) {
@@ -66,7 +66,7 @@ public class TimeTracker {
 
   /**
    * start a new tracker with specified name
-   * 
+   *
    * @param taskName [description]
    * @throws TimeTrackerTaskAlreadyExistException [description]
    */
@@ -81,7 +81,7 @@ public class TimeTracker {
 
   /**
    * stop a existing timer with specified name
-   * 
+   *
    * @param taskName [description]
    * @return [description]
    * @throws TimeTrackerTaskNotFoundException [description]
