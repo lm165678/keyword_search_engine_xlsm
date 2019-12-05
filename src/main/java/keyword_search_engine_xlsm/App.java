@@ -71,15 +71,31 @@ public class App {
     indexBuilder.calculate();
 
     // print results
-    // indexBuilder.print_fullName_skill();
-    // indexBuilder.print_skill_fullName();
-    // indexBuilder.print_tfidfList();
+    indexBuilder.print_fullName_skill();
+    indexBuilder.print_skill_fullName();
+    indexBuilder.print_tfidfList();
+  }
+
+  public static void showMenu() {
+    String input = MessageHandler.stringInputMessage("Do you want to use Mongodb for record? or the result will be printed directly in terminal [y/n]");
+
+    if (input.equals("y")) {
+        runWithDB();
+    } else if (input.equals("n")) {
+        runWithoutDB();
+    } else {
+        MessageHandler.errorMessage("Wrong input, please try again");
+        showMenu();
+    }
+
+    return;
   }
 
   public static void main(String[] args) {
     MessageHandler.successMessage("Program starting...");
 
-    runWithDB();
+    showMenu();
+    // runWithDB();
     // runWithoutDB();
 
     MessageHandler.successMessage("Program ending...");
