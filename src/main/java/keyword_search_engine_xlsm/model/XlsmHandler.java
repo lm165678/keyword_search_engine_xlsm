@@ -1,25 +1,22 @@
 package KeywordSearchEngine.model;
 
 import KeywordSearchEngine.util.MessageHandler;
-
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.nio.file.Path;
-import java.util.Iterator;
-import java.util.List;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import javafx.util.Pair;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.poi.ss.usermodel.CellType;
 
 /**
  * @author Zhongjie Shen
@@ -37,7 +34,7 @@ public class XlsmHandler {
 
   /**
    * init XlsmHandler with a folderDir String
-   * 
+   *
    * @param folderDir src folder dir
    * @return true if folder is not empty
    */
@@ -46,8 +43,9 @@ public class XlsmHandler {
 
     ArrayList<Path> paths = this.getPaths(folderDir);
 
-    if (paths.size() == 0)
+    if (paths.size() == 0) {
       return false;
+    }
 
     try {
       for (Path path : paths) {
@@ -129,6 +127,12 @@ public class XlsmHandler {
     return result;
   }
 
+  /**
+   * get all input file paths
+   *
+   * @param folderDir target folder directory
+   * @return path list
+   */
   private ArrayList<Path> getPaths(String folderDir) {
     ArrayList<Path> paths = new ArrayList<>();
 
@@ -138,9 +142,9 @@ public class XlsmHandler {
             if (Files.isRegularFile(filePath)) {
               try {
                 paths.add(filePath);
-                MessageHandler.infoMessage("[INFO] File detected: " + filePath.toString());
+                MessageHandler.infoMessage("File detected: " + filePath.toString());
               } catch (Exception e) {
-                MessageHandler.errorMessage("[FAIL] Catch Exception: " + e.getMessage());
+                MessageHandler.errorMessage("Catch Exception: " + e.getMessage());
               }
             }
           });

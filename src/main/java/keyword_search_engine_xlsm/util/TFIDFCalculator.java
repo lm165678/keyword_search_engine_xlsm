@@ -1,15 +1,13 @@
 package KeywordSearchEngine.util;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * @author original code concept by Mohamed Guendouz
  * @author modified by Zhongjie Shen
  */
 public class TFIDFCalculator {
+
   /**
-   * @param doc list of strings
+   * @param doc  list of strings
    * @param term String represents a term
    * @return term frequency of term in document
    */
@@ -33,7 +31,7 @@ public class TFIDFCalculator {
   }
 
   /**
-   * @param doc a text document
+   * @param doc  a text document
    * @param docs all documents
    * @param term term
    * @return the TF-IDF of term

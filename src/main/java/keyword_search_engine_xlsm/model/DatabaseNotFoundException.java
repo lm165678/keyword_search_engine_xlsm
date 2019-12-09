@@ -1,7 +1,8 @@
 package KeywordSearchEngine.model;
 
-public class DatabaseNotFoundException extends Exception {
-    public DatabaseNotFoundException(String errorMessage) {
-        super(errorMessage);
-    }
+public class DatabaseNotFoundException extends DatabaseException {
+
+  public DatabaseNotFoundException(String errorMessage) {
+    super(errorMessage);
+  }
 }
