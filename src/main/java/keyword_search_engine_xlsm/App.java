@@ -7,7 +7,10 @@ import KeywordSearchEngine.util.MessageHandler;
 import com.mongodb.client.MongoDatabase;
 import java.util.Iterator;
 import java.util.List;
-import javafx.util.Pair;
+import java.util.Map;
+import java.util.Map.*;
+import java.util.HashSet;
+import java.util.AbstractMap;
 
 /**
  * @author Zhongjie Shen
@@ -30,17 +33,13 @@ public class App {
     XlsmHandler handler = new XlsmHandler();
 
     handler.init(folderDir);
-    List<Pair<String, String>> pair_list = handler.extractWbs();
+    Map<String, String> data_map = handler.extractWbs();
 
     // adding tokens to indexBuilder
     InvertedIndexBuilder indexBuilder = new InvertedIndexBuilder();
 
-    Iterator<Pair<String, String>> pairsIterator = pair_list.iterator();
-    Pair<String, String> p = pairsIterator.next(); // ignore the first title line
-
-    while (pairsIterator.hasNext()) {
-      p = pairsIterator.next();
-      indexBuilder.add_token(p.getKey(), p.getValue(), dbHandler);
+    for (Map.Entry<String, String> entry : data_map.entrySet()) {
+        indexBuilder.add_token(entry.getKey(), entry.getValue(), dbHandler);
     }
 
     // caculating tdidfs
@@ -54,17 +53,13 @@ public class App {
     XlsmHandler handler = new XlsmHandler();
 
     handler.init(folderDir);
-    List<Pair<String, String>> pair_list = handler.extractWbs();
+    Map<String, String> data_map = handler.extractWbs();
 
     // adding tokens to indexBuilder
     InvertedIndexBuilder indexBuilder = new InvertedIndexBuilder();
 
-    Iterator<Pair<String, String>> pairsIterator = pair_list.iterator();
-    Pair<String, String> p = pairsIterator.next(); // ignore the first title line
-
-    while (pairsIterator.hasNext()) {
-      p = pairsIterator.next();
-      indexBuilder.add_token(p.getKey(), p.getValue());
+    for (Map.Entry<String, String> entry : data_map.entrySet()) {
+        indexBuilder.add_token(entry.getKey(), entry.getValue());
     }
 
     // caculating tdidfs

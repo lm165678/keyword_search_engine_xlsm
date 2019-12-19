@@ -5,9 +5,8 @@ import KeywordSearchEngine.util.TFIDFCalculator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Map.*;
 import java.util.StringTokenizer;
-import javafx.util.Pair;
 import org.bson.Document;
 
 /**
@@ -15,17 +14,17 @@ import org.bson.Document;
  */
 public class InvertedIndexBuilder {
 
-  Map<String, ArrayList<String>> dict_fullName_skills; // dict[fullName] = [skill] - raw list
-  Map<String, ArrayList<String>> dict_skill_fullNames; // dict[skill] = [fullName] - raw list
-  ArrayList<Pair<String, Double>> tfidfList;
+  Map<String, ArrayList<String>> dict_fullName_skills; // dict[fullName] = [skill]
+  Map<String, ArrayList<String>> dict_skill_fullNames; // dict[skill] = [fullName]
+  Map<String, Double> tfidfList;
 
   TFIDFCalculator calculator;
-
+ 
   public InvertedIndexBuilder() {
     // init all dicts
     dict_fullName_skills = new HashMap<>();
     dict_skill_fullNames = new HashMap<>();
-    tfidfList = new ArrayList<>();
+    tfidfList = new HashMap<>();
 
     this.calculator = new TFIDFCalculator();
 
@@ -109,7 +108,7 @@ public class InvertedIndexBuilder {
    *
    * @return calculated tdidf list
    */
-  public ArrayList<Pair<String, Double>> calculate() {
+  public Map<String, Double> calculate() {
     MessageHandler.infoMessage("Start calculating...");
 
     int doc_total; // total skill count under one entry
@@ -134,8 +133,7 @@ public class InvertedIndexBuilder {
 
       tfidf = tfidf / totalTermCount;
 
-      Pair<String, Double> temp = new Pair<>(skill, tfidf);
-      this.tfidfList.add(temp);
+      this.tfidfList.put(skill, tfidf);
     }
 
     return this.tfidfList;
@@ -149,7 +147,7 @@ public class InvertedIndexBuilder {
    *
    * @return [description]
    */
-  public ArrayList<Pair<String, Double>> calculate(DBHandler handler) {
+  public Map<String, Double> calculate(DBHandler handler) {
     MessageHandler.infoMessage("Start calculating...");
 
     int doc_total; // total skill count under one entry
@@ -174,15 +172,13 @@ public class InvertedIndexBuilder {
 
       tfidf = tfidf / totalTermCount;
 
-      Pair<String, Double> temp = new Pair<>(skill, tfidf);
-
       // for db insertion
-      Document doc_skill_tdidf = handler.newDocument(temp.getKey())
-          .append("tdidf", temp.getValue());
+      Document doc_skill_tdidf = handler.newDocument(skill)
+          .append("tdidf", tfidf);
       handler.updateDocument(doc_skill_tdidf, "skill_tdidf");
 
       // for in-built
-      this.tfidfList.add(temp);
+      this.tfidfList.put(skill, tfidf);
     }
 
     MessageHandler.infoMessage("db insertion finished: skill_tdidf");
@@ -194,7 +190,7 @@ public class InvertedIndexBuilder {
    * print tfidf list
    */
   public void print_tfidfList() {
-    for (Pair<String, Double> p : this.tfidfList) {
+    for (Map.Entry<String, Double> p : this.tfidfList.entrySet()) {
       MessageHandler.debugMessage("term: " + p.getKey() + " tfidf: " + p.getValue());
     }
     MessageHandler.debugMessage("print_tfidfList");
