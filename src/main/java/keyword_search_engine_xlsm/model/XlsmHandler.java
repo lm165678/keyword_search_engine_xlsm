@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import javafx.util.Pair;
+import java.util.Map.*;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -24,11 +24,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class XlsmHandler {
 
   private ArrayList<XSSFWorkbook> wbs;
-  private ArrayList<Pair<String, String>> extracted; // Pair<fullname:skills>
+  private Map<String, String> extracted;
 
   public XlsmHandler() {
     this.wbs = new ArrayList<>();
-    this.extracted = new ArrayList<>();
+    this.extracted = new HashMap<>();
     return;
   }
 
@@ -61,17 +61,19 @@ public class XlsmHandler {
     return true;
   }
 
-  public ArrayList<Pair<String, String>> extractWbs() {
+  public Map<String, String> extractWbs() {
+    // NOTE: this method might overwirte duplicate names
     MessageHandler.infoMessage("Start extracting ...");
 
     for (XSSFWorkbook wb : this.wbs) {
       Map<String, Integer> colIxMap = this.getColIxMap(wb);
 
+      // FIXME: should ignore the titiles
       int fullNameInx = colIxMap.get("fullName");
       int allSkillsInx = colIxMap.get("allSkills");
 
-      ArrayList<Pair<String, String>> temp = this.extractWb(wb, fullNameInx, allSkillsInx);
-      this.extracted.addAll(temp);
+      Map<String, String> temp = this.extractWb(wb, fullNameInx, allSkillsInx);
+      this.extracted.putAll(temp);
     }
 
     MessageHandler.infoMessage("Total entry extracted: " + this.extracted.size());
@@ -98,14 +100,14 @@ public class XlsmHandler {
   /**
    * this function will read the first sheet and print fullname and skills columns
    */
-  private ArrayList<Pair<String, String>> extractWb(XSSFWorkbook wb, int fullNameInx,
+  private Map<String, String> extractWb(XSSFWorkbook wb, int fullNameInx,
       int allSkillsInx) {
     XSSFSheet sheet = wb.getSheetAt(0);
     XSSFRow row;
     XSSFCell fullNameCell;
     XSSFCell skillsCell;
 
-    ArrayList<Pair<String, String>> result = new ArrayList<>();
+    Map<String, String> result = new HashMap<>();
 
     Iterator rows = sheet.rowIterator();
 
@@ -119,8 +121,7 @@ public class XlsmHandler {
         if (fullNameCell.getCellType() == CellType.STRING) {
           String fullName = fullNameCell.getStringCellValue();
           String skills = skillsCell.getStringCellValue();
-          Pair<String, String> p = new Pair<>(fullName, skills);
-          result.add(p);
+          result.put(fullName, skills);
         }
       }
     }
