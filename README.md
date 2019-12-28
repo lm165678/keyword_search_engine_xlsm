@@ -3,6 +3,10 @@
 
 This is a simple keyword matching system originally built for [Seedsprint](https://www.seedsprint.com). Now it is just a personal project for my own practice.
 
+## Disclaimer:
+### This project is for my own Java learning purpose. I am trying to make it a better contributor-friendly project and feel free to let me know what you think!
+### This project is currently under reconstruction to utilize Spring Framework. This move aims to offer a better usr/developer experience. More information will be updated soon.  
+
 ## Requirements:
 ### 1: MongoDB
 - should have a db called **workdata_seedsprint** 
